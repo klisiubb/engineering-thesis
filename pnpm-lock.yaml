@@ -145,6 +145,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@types/luxon':
+    specifier: ^3.3.3
+    version: 3.3.3
   '@types/node':
     specifier: ^20
     version: 20.8.9
@@ -1994,6 +1997,10 @@ packages:
   /@types/keygrip@1.0.4:
     resolution: {integrity: sha512-/tjWYD8StMrINelsrHNmpXceo9s3/Y22AzePH1qCvXIgmz/aQp2YFFr6HqhNQVIOdcvaVyp5GS+yjHGuF7Rwsg==}
     dev: false
+
+  /@types/luxon@3.3.3:
+    resolution: {integrity: sha512-/BJF3NT0pRMuxrenr42emRUF67sXwcZCd+S1ksG/Fcf9O7C3kKCY4uJSbKBE4KDUIYr3WMsvfmWD8hRjXExBJQ==}
+    dev: true
 
   /@types/mime@1.3.4:
     resolution: {integrity: sha512-1Gjee59G25MrQGk8bsNvC6fxNiRgUlGn2wlhGf95a59DrprnnHk80FIMMFG9XHMdrfsuA119ht06QPDXA1Z7tw==}
