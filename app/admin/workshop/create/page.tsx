@@ -59,7 +59,7 @@ const CreatePage = () => {
   }
 
   return (
-    <div className="h-full flex flex-col justify-center items-center">
+    <div className="h-full grid place-items-center">
       <div className="max-w-5xl w-full mx-auto p-6">
         <h1 className="text-2xl">Name your workshop</h1>
         <p className="text-sm text-slate-600">
@@ -91,7 +91,7 @@ const CreatePage = () => {
                 </FormItem>
               )}
             />
-            <div className="flex items-center gap-x-2">
+            <div className="grid grid-cols-2 gap-2 items-center justify-center">
               <Link href="/admin/workshop/">
                 <Button type="button" variant="ghost">
                   Cancel
