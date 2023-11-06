@@ -16,7 +16,7 @@ const SaveForm = ({ initialData, workshopId }: PublishProps) => {
 
   const onClick = async () => {
     try {
-      await axios.patch(`/api/admin/workshop/${workshopId}`, {
+      await axios.patch(`/api/admin/workshop/edit/${workshopId}`, {
         isPublished: !initialData.isPublished,
       });
       toast.success("Workshop status updated");

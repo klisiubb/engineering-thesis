@@ -1,71 +1,79 @@
-"use client"
+"use client";
 
-import * as z from "zod"
-import axios from "axios"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import * as z from "zod";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Pencil } from "lucide-react"
-import { useState } from "react"
-import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
-import { Workshop } from "@prisma/client"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Workshop } from "@prisma/client";
+import { cn } from "@/lib/utils";
 
-interface roomFormProps {
-  initialData: Workshop
-  workshopId: string
+interface maxAttendersFormProps {
+  initialData: Workshop;
+  workshopId: string;
 }
 
 const formSchema = z.object({
-  room: z.string().nonempty({ message: "Room is required" }),
-})
+  maxAttenders: z.coerce
+    .number()
+    .int({ message: "Max attenders must be a number" })
+    .gt(0, {
+      message: "Max attenders must be a positive number",
+    }),
+});
 
-export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
-  const [isEditing, setIsEditing] = useState(false)
+export const MaxAttendersForm = ({
+  initialData,
+  workshopId,
+}: maxAttendersFormProps) => {
+  const [isEditing, setIsEditing] = useState(false);
 
-  const toggleEdit = () => setIsEditing((prev) => !prev)
+  const toggleEdit = () => setIsEditing((prev) => !prev);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      room: initialData?.room || "",
+      maxAttenders: initialData.maxAttenders || 1,
     },
-  })
+  });
 
-  const { isSubmitting, isValid } = form.formState
+  const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/admin/workshop/${workshopId}`, values)
-      toast.success("Workshop room updated")
-      toggleEdit()
-      router.refresh()
+      await axios.patch(`/api/admin/workshop/edit/${workshopId}`, values);
+      toast.success("Workshop Max Attenders updated");
+      toggleEdit();
+      router.refresh();
     } catch {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
-  }
+  };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Room:
+        Max Attenders:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit room
+              Edit max attenders
             </>
           )}
         </Button>
@@ -74,10 +82,10 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.room && "text-slate-500 italic"
+            !initialData.maxAttenders && "text-slate-500 italic"
           )}
         >
-          {initialData.room || "No room..."}
+          {initialData.maxAttenders || "No max attenders..."}
         </p>
       )}
       {isEditing && (
@@ -88,13 +96,13 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
           >
             <FormField
               control={form.control}
-              name="room"
+              name="maxAttenders"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `A304`"
+                      placeholder="e.g `15`"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -111,5 +119,5 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
         </Form>
       )}
     </div>
-  )
-}
+  );
+};

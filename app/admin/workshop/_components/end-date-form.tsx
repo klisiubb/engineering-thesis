@@ -1,74 +1,74 @@
-"use client"
-import * as z from "zod"
-import axios from "axios"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+"use client";
+import * as z from "zod";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Pencil } from "lucide-react"
-import { useState } from "react"
-import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
-import { Workshop } from "@prisma/client"
-import { cn } from "@/lib/utils" // Importujemy DateTimePicker
-import { DateTimePicker } from "./datetime"
-import { DateTime } from "luxon"
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Workshop } from "@prisma/client";
+import { cn } from "@/lib/utils"; // Importujemy DateTimePicker
+import { DateTimePicker } from "./datetime";
+import { DateTime } from "luxon";
 
-interface StartDateFormProps {
-  initialData: Workshop
-  workshopId: string
+interface EndDateFormProps {
+  initialData: Workshop;
+  workshopId: string;
 }
 
-const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
+const EndDateForm = ({ initialData, workshopId }: EndDateFormProps) => {
   const formSchema = z
     .object({
-      startDate: z.coerce.date(),
+      endDate: z.coerce.date(),
     })
     .refine((data) => {
-      return data.startDate < initialData.endDate
-    }, "Start date must be before end date")
+      return data.endDate > initialData.startDate;
+    }, "End date must be after start date");
 
-  const [isEditing, setIsEditing] = useState(false)
-  const toggleEdit = () => setIsEditing((prev) => !prev)
-  const router = useRouter()
+  const [isEditing, setIsEditing] = useState(false);
+  const toggleEdit = () => setIsEditing((prev) => !prev);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      startDate: initialData.startDate,
+      endDate: initialData.endDate,
     },
-  })
+  });
 
-  const { isSubmitting, isValid } = form.formState
+  const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/admin/workshop/${workshopId}`, values)
-      toast.success("Workshop start date updated")
-      toggleEdit()
-      router.refresh()
+      await axios.patch(`/api/admin/workshop/edit/${workshopId}`, values);
+      toast.success("Workshop end date updated");
+      toggleEdit();
+      router.refresh();
     } catch {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
-  }
+  };
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Start Date:
+        End Date:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit start date
+              Edit end date
             </>
           )}
         </Button>
@@ -78,18 +78,18 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
           suppressHydrationWarning
           className={cn(
             "text-sm mt-2",
-            !initialData.startDate && "text-slate-500 italic"
+            !initialData.endDate && "text-slate-500 italic"
           )}
         >
-          {initialData.startDate
-            ? DateTime.fromJSDate(initialData.startDate).toLocaleString({
+          {initialData.endDate
+            ? DateTime.fromJSDate(initialData.endDate).toLocaleString({
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
               })
-            : "No start date..."}
+            : "No end date..."}
         </p>
       )}
       {isEditing && (
@@ -100,7 +100,7 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
           >
             <FormField
               control={form.control}
-              name="startDate"
+              name="endDate"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -125,6 +125,6 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
         </Form>
       )}
     </div>
-  )
-}
-export default StartDateForm
+  );
+};
+export default EndDateForm;

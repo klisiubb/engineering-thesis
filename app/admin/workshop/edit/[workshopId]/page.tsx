@@ -1,12 +1,14 @@
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { TopicForm } from "./_components/topic-form";
-import { DescriptionForm } from "./_components/description-form";
-import { RoomForm } from "./_components/room-form";
-import { MaxAttendersForm } from "./_components/max-attenders-form";
-import StartDateForm from "./_components/start-date-form";
-import EndDateForm from "./_components/end-date-form";
-import SaveForm from "./_components/save-form";
+import { TopicForm } from "../../_components/topic-form";
+import { DescriptionForm } from "../../_components/description-form";
+import { RoomForm } from "../../_components/room-form";
+import { MaxAttendersForm } from "../../_components/max-attenders-form";
+import StartDateForm from "../../_components/start-date-form";
+import EndDateForm from "../../_components/end-date-form";
+import SaveForm from "../../_components/save-form";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
   const workshop = await prisma.workshop.findUnique({
     where: {
@@ -36,6 +38,9 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
     <div className="p-6">
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
+          <Button asChild variant="outline">
+            <Link href="/admin/workshop/">Go back!</Link>
+          </Button>
           <h1 className="text-2xl font-medium">Workshop setup:</h1>
           <span className="text-sm text-slate-700">
             {totalFields !== completedFields ? (
