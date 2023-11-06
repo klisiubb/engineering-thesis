@@ -1,15 +1,29 @@
-"use client"
+"use client";
 
-import { BarChart, CalendarDays, Compass, List, QrCode } from "lucide-react"
-import { usePathname } from "next/navigation"
+import {
+  BarChart,
+  CalendarDays,
+  Compass,
+  Layers2,
+  List,
+  QrCode,
+  Trophy,
+  Users,
+} from "lucide-react";
+import { usePathname } from "next/navigation";
 
-import { SidebarItem } from "./sidebar-item"
+import { SidebarItem } from "./sidebar-item";
 
 const adminRoutes = [
   {
+    icon: Layers2,
+    label: "Main",
+    href: "/admin/",
+  },
+  {
     icon: BarChart,
     label: "Stats",
-    href: "/admin/",
+    href: "/admin/stats",
   },
   {
     icon: CalendarDays,
@@ -21,27 +35,20 @@ const adminRoutes = [
     label: "QR Codes",
     href: "/admin/qr",
   },
-]
-
-const teacherRoutes = [
   {
-    icon: List,
-    label: "Courses",
-    href: "/teacher/courses",
+    icon: Trophy,
+    label: "Rewards",
+    href: "/admin/rewards",
   },
   {
-    icon: BarChart,
-    label: "Analytics",
-    href: "/teacher/analytics",
+    icon: Users,
+    label: "Users",
+    href: "/admin/users",
   },
-]
+];
 
 export const SidebarRoutes = () => {
-  const pathname = usePathname()
-
-  const isTeacherPage = pathname?.includes("/teacher")
-
-  const routes = isTeacherPage ? teacherRoutes : adminRoutes
+  const routes = adminRoutes;
 
   return (
     <div className="flex flex-col w-full">
@@ -54,5 +61,5 @@ export const SidebarRoutes = () => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
