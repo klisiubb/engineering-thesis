@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+  VOLUNTEER
+  LECTURER
+}
+
+model User {
+  Id         String   @id @default(uuid())
+  externalId String   @unique
+  email      String   @unique
+  firstName  String?
+  lastName   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  picture    String
+  role       Role     @default(USER)
+}
+
+model Workshop {
+  id               String   @id @default(uuid())
+  topic            String   @unique()
+  description      String?
+  currentAttenders Int      @default(0)
+  maxAttenders     Int?
+  room             String?
+  startDate        DateTime @default(now())
+  endDate          DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  isPublished      Boolean  @default(false)
+}
