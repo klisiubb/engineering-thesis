@@ -27,7 +27,7 @@ const WorkshopPage = async () => {
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-medium">Workshops:</h1>
-          <Button asChild variant="outline">
+          <Button asChild size="sm" variant="default">
             <Link href="/admin/workshop/create">Create new workshop</Link>
           </Button>
           <div className=" flex flex-row">
