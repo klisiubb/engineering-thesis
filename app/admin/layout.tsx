@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Navbar } from "./_components/navbar"
 import { Sidebar } from "./_components/sidebar"
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {

@@ -38,6 +38,9 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
           <h1 className="text-2xl font-medium">Workshop setup:</h1>
           <span className="text-sm text-slate-700">
             Complete all fields {completionText}
+            {completedFields === totalFields && (
+              "Tu będzie przycisk zapisz"
+            )}
           </span>
         </div>
       </div>

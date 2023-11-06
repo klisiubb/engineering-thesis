@@ -28,6 +28,7 @@ const formSchema = z.object({
 })
 
 const CreatePage = () => {
+  
   const { isLoaded, isSignedIn, user } = useUser()
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
