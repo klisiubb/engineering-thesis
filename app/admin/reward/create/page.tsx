@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  topic: z.string().min(1, {
+  name: z.string().min(1, {
     message: "Name is required",
   }),
 });
@@ -33,7 +33,7 @@ const CreatePage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      topic: "",
+      name: "",
     },
   });
 
@@ -73,7 +73,7 @@ const CreatePage = () => {
           >
             <FormField
               control={form.control}
-              name="topic"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Reward name:</FormLabel>

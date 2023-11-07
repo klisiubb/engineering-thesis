@@ -4,11 +4,9 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import RewardCard from "./_components/reward-card";
 import { prisma } from "@/lib/db";
 
-const RewardsPage = async () => {
-  const rewards = await prisma.reward.findMany();
+const Page = async () => {
   const user = await currentUser();
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return redirect("/");
@@ -17,22 +15,16 @@ const RewardsPage = async () => {
   return (
     <div className="p-6">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-medium">Rewards:</h1>
+        <h1 className="text-2xl font-medium">QR Codes:</h1>
         <div className="mb-4">
           <Button asChild size="sm" variant="default">
-            <Link href="/admin/reward/create">Add new reward</Link>
+            <Link href="/admin/qr/create">Create new QR Code</Link>
           </Button>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
-          {rewards.map((reward) => (
-            <div key={reward.id}>
-              <RewardCard {...reward} />
-            </div>
-          ))}
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8"></div>
       </div>
     </div>
   );
 };
 
-export default RewardsPage;
+export default Page;
