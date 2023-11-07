@@ -2,22 +2,22 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import SaveForm from "../../_components/save-form";
-import { DescriptionForm } from "../../_components/description-form";
-import { QuantityForm } from "../../_components/quantity-form";
 import { NameForm } from "../../_components/name-form";
-const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
-  const reward = await prisma.reward.findUnique({
+import SaveForm from "../../_components/save-form";
+import { ValueForm } from "../../_components/value-form";
+import { MaxUsesForm } from "../../_components/max-uses-form";
+const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
+  const qrcode = await prisma.qrCode.findUnique({
     where: {
-      id: params.rewardId,
+      id: params.qrcodeId,
     },
   });
 
-  if (!reward) {
-    return redirect("/admin/reward/");
+  if (!qrcode) {
+    return redirect("/admin/qr/");
   }
 
-  const requiredFields = [reward.quantity, reward.description, reward.name];
+  const requiredFields = [qrcode.maxUses, qrcode.value, qrcode.name];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -29,9 +29,9 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <Button asChild variant="outline">
-            <Link href="/admin/reward/">Go back!</Link>
+            <Link href="/admin/qr/">Go back!</Link>
           </Button>
-          <h1 className="text-2xl font-medium">Reward setup:</h1>
+          <h1 className="text-2xl font-medium">QR Code setup:</h1>
           <span className="text-sm text-slate-700">
             {totalFields !== completedFields ? (
               `Please complete all fields ${completionText}!`
@@ -47,23 +47,23 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
         className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16"
         suppressHydrationWarning
       >
-        {reward.isPublished ? (
+        {qrcode.isPublished ? (
           <></>
         ) : (
           <>
-            <NameForm initialData={reward} rewardId={reward.id} />
-            <DescriptionForm initialData={reward} rewardId={reward.id} />
-            <QuantityForm initialData={reward} rewardId={reward.id} />
+            <NameForm initialData={qrcode} qrcodeId={qrcode.id} />
+            <ValueForm initialData={qrcode} qrcodeId={qrcode.id} />
+            <MaxUsesForm initialData={qrcode} qrcodeId={qrcode.id} />
           </>
         )}
       </div>
-      <div className=" mt-2">
+      <div className="mt-2">
         {completedFields === totalFields && (
-          <SaveForm initialData={reward} rewardId={reward.id} />
+          <SaveForm initialData={qrcode} qrcodeId={qrcode.id} />
         )}
       </div>
     </div>
   );
 };
 
-export default RewardEditPage;
+export default QRCodeEditPage;

@@ -69,6 +69,8 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
             <EndDateForm initialData={workshop} workshopId={workshop.id} />
           </>
         )}
+      </div>
+      <div className="mt-2">
         {completedFields === totalFields && (
           <SaveForm initialData={workshop} workshopId={workshop.id} />
         )}
