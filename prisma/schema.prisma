@@ -15,15 +15,24 @@ enum Role {
 }
 
 model User {
-  Id         String   @id @default(uuid())
-  externalId String   @unique
-  email      String   @unique
-  firstName  String?
-  lastName   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  picture    String
-  role       Role     @default(USER)
+  Id                  String    @id @default(uuid())
+  externalId          String    @unique
+  email               String    @unique
+  firstName           String?
+  lastName            String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  picture             String
+  role                Role      @default(USER)
+  points              Int       @default(0)
+  isPresentAtEvent    Boolean   @default(false)
+  isPresentAtWorkshop Boolean   @default(false)
+  isWinner            Boolean   @default(false)
+  Reward              Reward[]
+  workshopToAttend    Workshop? @relation(name: "WorkshopAttenders", fields: [workshopToAttendId], references: [id])
+  workshopToAttendId  String?
+  WorkshopToLecture   Workshop? @relation(name: "WorkshopLecturers", fields: [workshopToLectureId], references: [id])
+  workshopToLectureId String?
 }
 
 model Workshop {
@@ -38,6 +47,10 @@ model Workshop {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   isPublished      Boolean  @default(false)
+  qrCode           QrCode?  @relation(name: "WorkshopQRCode", fields: [qrCodeId], references: [id])
+  qrCodeId         String?  @unique
+  attenders        User[]   @relation(name: "WorkshopAttenders")
+  lecturers        User[]   @relation(name: "WorkshopLecturers")
 }
 
 model Reward {
@@ -48,15 +61,19 @@ model Reward {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isPublished Boolean  @default(false)
+  User        User?    @relation(fields: [userId], references: [externalId])
+  userId      String?
 }
 
 model QrCode {
-  id          String   @id @default(uuid())
-  name        String   @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
   value       Int?
-  maxUses     Int?     @default(0)
-  currentUses Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  isPublished Boolean  @default(false)
+  maxUses     Int?      @default(0)
+  currentUses Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isPublished Boolean   @default(false)
+  Workshop    Workshop? @relation(name: "WorkshopQRCode")
+  workshopId  String?
 }
