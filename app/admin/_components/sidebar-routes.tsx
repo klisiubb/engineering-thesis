@@ -1,29 +1,14 @@
 "use client";
 
-import {
-  BarChart,
-  CalendarDays,
-  Compass,
-  Layers2,
-  List,
-  QrCode,
-  Trophy,
-  Users,
-} from "lucide-react";
-import { usePathname } from "next/navigation";
+import { BarChart, CalendarDays, QrCode, Trophy, Users } from "lucide-react";
 
 import { SidebarItem } from "./sidebar-item";
 
 const adminRoutes = [
   {
-    icon: Layers2,
-    label: "Main",
-    href: "/admin/",
-  },
-  {
     icon: BarChart,
     label: "Stats",
-    href: "/admin/stats",
+    href: "/admin",
   },
   {
     icon: CalendarDays,
@@ -38,12 +23,12 @@ const adminRoutes = [
   {
     icon: Trophy,
     label: "Rewards",
-    href: "/admin/rewards",
+    href: "/admin/reward",
   },
   {
     icon: Users,
     label: "Users",
-    href: "/admin/users",
+    href: "/admin/user",
   },
 ];
 
