@@ -44,9 +44,7 @@ const RewardCard = (reward: Reward) => {
         </CardHeader>
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
-            <p className="text-gray-700">
-              Quantity: <i>{reward.quantity}</i>
-            </p>
+            <p className="text-gray-700">Quantity: {reward.quantity}</p>
             {reward.isPublished ? (
               <p className="text-green-700 font-semibold">Published</p>
             ) : (

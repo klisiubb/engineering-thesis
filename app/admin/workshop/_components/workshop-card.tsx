@@ -44,23 +44,20 @@ const WorkshopCard = (workshop: Workshop) => {
         </CardHeader>
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
-            <p className="text-gray-700">
-              Start date:{" "}
-              <i suppressHydrationWarning>
-                {new Date(workshop.startDate).toLocaleString()}
-              </i>
+            <p className="text-gray-700" suppressHydrationWarning>
+              Start date: {new Date(workshop.startDate).toLocaleString()}
             </p>
-            <p className="text-gray-700">
-              End date:{" "}
-              <i suppressHydrationWarning>
-                {new Date(workshop.endDate).toLocaleString()}
-              </i>
+            <p className="text-gray-700" suppressHydrationWarning>
+              End date: {new Date(workshop.endDate).toLocaleString()}
             </p>
+            <p className="text-gray-700">Room: {workshop.room}</p>
             <p className="text-gray-700">
-              Room: <i>{workshop.room}</i>
-            </p>
-            <p className="text-gray-700">
-              Maximum attenders: <i>{workshop.maxAttenders}</i>
+              Maximum attenders:{" "}
+              <span>
+                {workshop.maxAttenders === 0
+                  ? "Not applicable"
+                  : workshop.maxAttenders}
+              </span>
             </p>
             {workshop.isPublished ? (
               <p className="text-green-700 font-semibold">Published</p>
