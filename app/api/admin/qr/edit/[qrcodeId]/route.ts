@@ -18,6 +18,17 @@ export async function PATCH(
     return new NextResponse("Data must be provided", { status: 400 })
   }
 
+  if(values.workshopId){
+    await prisma.qrCode.update({
+      where: {
+        id: qrcodeId,
+      },
+      data: {
+        workshopId: null
+      }
+    })
+  }
+
   try {
     const qrCode = await prisma.qrCode.update({
       where: {

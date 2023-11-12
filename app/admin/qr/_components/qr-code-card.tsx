@@ -15,7 +15,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
-
+// @ts-ignore
+import { triggerBase64Download } from "react-base64-downloader";
 const QRCodeCard = (qrcode: QrCode) => {
   const router = useRouter();
   const onClick = async () => {
@@ -67,16 +68,18 @@ const QRCodeCard = (qrcode: QrCode) => {
                 <span>Workshop only</span>
               )}
             </p>
-            <div className="flex items-center justify-center">
-              <Image
-                src={qrcode.base64 as string}
-                alt="QR Code"
-                width="150"
-                height="150"
-                className="rounded-lg"
-                objectFit="cover"
-              />
-            </div>
+            {qrcode.isPublished ? (
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  triggerBase64Download(qrcode.base64, qrcode.name)
+                }
+              >
+                Download
+              </Button>
+            ) : (
+              <Button variant="secondary">Publish to download QR Code</Button>
+            )}
           </div>
         </CardContent>
         <hr className="mb-2" />

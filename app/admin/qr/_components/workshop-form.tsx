@@ -1,5 +1,4 @@
 "use client";
-
 import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,19 +16,29 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { QrCode } from "@prisma/client";
-import { cn } from "@/lib/utils";
-
-interface maxUsesProps {
-  initialData: QrCode;
-  qrcodeId: string;
+import { Workshop } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+interface linkFormProps {
+  workshopId?: string;
+  workshops: Workshop[];
+  qrCodeId: string;
 }
 
 const formSchema = z.object({
-  maxUses: z.coerce.number().nonnegative(),
+  workshopId: z.string(),
 });
 
-export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
+export const WorkshopForm = ({
+  workshopId,
+  qrCodeId,
+  workshops,
+}: linkFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((prev) => !prev);
@@ -38,16 +47,15 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      maxUses: initialData.maxUses,
-    },
+    defaultValues: workshopId ? { workshopId } : {},
   });
+
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/admin/qr/edit/${qrcodeId}`, values);
-      toast.success("QR Code max uses updated");
+      await axios.patch(`/api/admin/qr/edit/${qrCodeId}`, values);
+      toast.success("QR Code workshop updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -57,26 +65,28 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Maximum uses:
+        Workshop:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit value
+              Link to workshop
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
-        <p
-          className={cn(
-            "text-sm mt-2",
-            !initialData.maxUses && "text-slate-500 italic"
+        <p className="text-sm mt-2">
+          {workshops.some((workshop) => workshop.id === workshopId) && (
+            <>
+              {workshops.find((workshop) => workshop.id === workshopId)?.topic
+                ? workshops.find((workshop) => workshop.id === workshopId)
+                    ?.topic
+                : "No workshop to link selected"}
+            </>
           )}
-        >
-          {initialData.maxUses || "Max uses not set"}
         </p>
       )}
       {isEditing && (
@@ -87,16 +97,27 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
           >
             <FormField
               control={form.control}
-              name="maxUses"
+              name="workshopId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="e.g `15`"
-                      disabled={isSubmitting}
-                      type="number"
-                    />
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a workshop to lecture" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {workshops.map((workshop) => (
+                          <SelectItem key={workshop.id} value={workshop.id}>
+                            {workshop.topic}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

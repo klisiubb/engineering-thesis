@@ -6,6 +6,7 @@ import { NameForm } from "../../_components/name-form";
 import SaveForm from "../../_components/save-form";
 import { ValueForm } from "../../_components/value-form";
 import { MaxUsesForm } from "../../_components/max-uses-form";
+import { WorkshopForm } from "../../_components/workshop-form";
 const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
   const qrcode = await prisma.qrCode.findUnique({
     where: {
@@ -13,11 +14,20 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
     },
   });
 
+  const workshops = await prisma.workshop.findMany({
+    where: {
+      isPublished: true,
+      AND: {
+        qrCodeId: null,
+      },
+    },
+  });
+
   if (!qrcode) {
     return redirect("/admin/qr/");
   }
 
-  const requiredFields = [qrcode.maxUses, qrcode.value, qrcode.name];
+  const requiredFields = [qrcode.value, qrcode.name];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -54,6 +64,11 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
             <NameForm initialData={qrcode} qrcodeId={qrcode.id} />
             <ValueForm initialData={qrcode} qrcodeId={qrcode.id} />
             <MaxUsesForm initialData={qrcode} qrcodeId={qrcode.id} />
+            <WorkshopForm
+              qrCodeId={qrcode.id}
+              workshopId={qrcode.workshopId ? qrcode.workshopId : ""}
+              workshops={workshops}
+            />
           </>
         )}
       </div>

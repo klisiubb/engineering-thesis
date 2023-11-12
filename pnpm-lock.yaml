@@ -125,6 +125,9 @@ dependencies:
   react:
     specifier: ^18
     version: 18.2.0
+  react-base64-downloader:
+    specifier: ^2.1.7
+    version: 2.1.7(react-dom@18.2.0)(react@18.2.0)
   react-day-picker:
     specifier: ^8.9.1
     version: 8.9.1(date-fns@2.30.0)(react@18.2.0)
@@ -4165,6 +4168,16 @@ packages:
   /quick-lru@4.0.1:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
+    dev: false
+
+  /react-base64-downloader@2.1.7(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-2ZNpjoTxH+DAX44YgA1vCBbOU74Qo14+BeCWyMq705xy67rohJtu0vVO4IyOqXVoXmpZcibaPnl9rzLijzAxlQ==}
+    peerDependencies:
+      react: '>=15.0.1'
+      react-dom: '>=15.0.1'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-day-picker@8.9.1(date-fns@2.30.0)(react@18.2.0):
