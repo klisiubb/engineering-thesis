@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
+import axios from "axios";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -57,11 +60,11 @@ export const columns: ColumnDef<User>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`/admin/user/edit/${user.Id}`}>Edit user</Link>
+              <Link href={`/admin/user/edit/${user.Id}`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500">
-              Delete user
+              <button onClick={() => deleteUser(user.Id)}>Delete</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -69,3 +72,18 @@ export const columns: ColumnDef<User>[] = [
     },
   },
 ];
+
+const deleteUser = async (userId: string) => {
+  try {
+    const response = await axios.delete(`/api/admin/user/delete/${userId}`);
+    if (response.status === 200) {
+      window.location.reload();
+      toast.success("User deleted successfully");
+    } else {
+      toast.error("Failed to delete user");
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    toast.error("An error occurred while deleting user");
+  }
+};

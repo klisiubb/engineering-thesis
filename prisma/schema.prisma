@@ -36,21 +36,20 @@ model User {
 }
 
 model Workshop {
-  id               String   @id @default(uuid())
-  topic            String   @unique()
-  description      String?
-  currentAttenders Int      @default(0)
-  maxAttenders     Int?
-  room             String?
-  startDate        DateTime @default(now())
-  endDate          DateTime @default(now())
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  isPublished      Boolean  @default(false)
-  qrCode           QrCode?  @relation(name: "WorkshopQRCode", fields: [qrCodeId], references: [id])
-  qrCodeId         String?  @unique
-  attenders        User[]   @relation(name: "WorkshopAttenders")
-  lecturers        User[]   @relation(name: "WorkshopLecturers")
+  id           String   @id @default(uuid())
+  topic        String   @unique()
+  description  String?
+  maxAttenders Int?
+  room         String?
+  startDate    DateTime @default(now())
+  endDate      DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  isPublished  Boolean  @default(false)
+  qrCode       QrCode?  @relation(name: "WorkshopQRCode", fields: [qrCodeId], references: [id])
+  qrCodeId     String?  @unique
+  attenders    User[]   @relation(name: "WorkshopAttenders")
+  lecturers    User[]   @relation(name: "WorkshopLecturers")
 }
 
 model Reward {
@@ -69,8 +68,8 @@ model QrCode {
   id          String    @id @default(uuid())
   name        String    @unique
   value       Int?
+  base64      String?
   maxUses     Int?      @default(0)
-  currentUses Int       @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   isPublished Boolean   @default(false)

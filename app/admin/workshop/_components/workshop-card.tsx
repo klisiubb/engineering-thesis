@@ -60,10 +60,7 @@ const WorkshopCard = (workshop: Workshop) => {
               Room: <i>{workshop.room}</i>
             </p>
             <p className="text-gray-700">
-              Current attenders:{" "}
-              <i>
-                {workshop.currentAttenders}/{workshop.maxAttenders}
-              </i>
+              Maximum attenders: <i>{workshop.maxAttenders}</i>
             </p>
             {workshop.isPublished ? (
               <p className="text-green-700 font-semibold">Published</p>

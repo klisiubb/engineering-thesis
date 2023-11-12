@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const QRCodeCard = (qrcode: QrCode) => {
   const router = useRouter();
@@ -38,21 +39,44 @@ const QRCodeCard = (qrcode: QrCode) => {
         <CardHeader>
           <CardTitle>{qrcode.name}</CardTitle>
           <hr className="mb-2" />
-          <CardDescription>Value: {qrcode.value}</CardDescription>
         </CardHeader>
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
             <p className="text-gray-700">
-              Uses:{" "}
-              <i>
-                {qrcode.currentUses} / {qrcode.maxUses}
-              </i>
+              Value: {qrcode.value === null ? "Not set" : qrcode.value}
             </p>
-            {qrcode.isPublished ? (
-              <p className="text-green-700 font-semibold">Published</p>
-            ) : (
-              <p className="text-red-700 font-semibold">Unpublished</p>
-            )}
+            <p className="text-gray-700">
+              Max uses:{" "}
+              <span>
+                {qrcode.maxUses === 0 ? "Not applicable" : qrcode.maxUses}
+              </span>
+            </p>
+            <p className="text-gray-700">
+              Status:{" "}
+              {qrcode.isPublished ? (
+                <span className="text-green-700 font-semibold">Published</span>
+              ) : (
+                <span className="text-red-700 font-semibold">Unpublished</span>
+              )}
+            </p>
+            <p className="text-gray-700">
+              Type:{" "}
+              {qrcode.workshopId === null ? (
+                <span>General</span>
+              ) : (
+                <span>Workshop only</span>
+              )}
+            </p>
+            <div className="flex items-center justify-center">
+              <Image
+                src={qrcode.base64 as string}
+                alt="QR Code"
+                width="150"
+                height="150"
+                className="rounded-lg"
+                objectFit="cover"
+              />
+            </div>
           </div>
         </CardContent>
         <hr className="mb-2" />

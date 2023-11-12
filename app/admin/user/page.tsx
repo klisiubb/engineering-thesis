@@ -15,7 +15,6 @@ const Page = async () => {
   const user = await currentUser();
 
   const data = await getData();
-  console.log(data);
   if (!data) {
     return <div>Loading...</div>;
   }
