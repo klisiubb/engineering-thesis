@@ -1,17 +1,12 @@
 import { SignInButton, SignOutButton, currentUser } from "@clerk/nextjs";
+import { Navbar } from "./_components/navbar";
+import WelcomeComponent from "./_components/welcome";
 
 export default async function Page() {
-  const user = await currentUser();
-  if (!user)
-    return (
-      <div>
-        Not logged in <SignInButton />
-      </div>
-    );
-
   return (
-    <div>
-      Hello {user?.firstName} <SignOutButton />
-    </div>
+    <>
+      <Navbar />
+      <WelcomeComponent />
+    </>
   );
 }

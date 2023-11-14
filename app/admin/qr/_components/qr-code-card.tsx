@@ -75,7 +75,7 @@ const QRCodeCard = (qrcode: QrCode) => {
                   triggerBase64Download(qrcode.base64, qrcode.name)
                 }
               >
-                Download
+                Download QR Code
               </Button>
             ) : (
               <Button variant="secondary">Publish to download QR Code</Button>

@@ -17,12 +17,46 @@ export async function DELETE( req: Request,
     where: {
       Id: params.userId,
     },
+    include:{
+      workshopToAttend: true,
+      WorkshopToLecture: true,
+    }
   })
 
 
   try {
    let del = await clerkClient.users.deleteUser(foundUser?.externalId as string)
-   console.log(del) 
+
+   if(foundUser?.workshopToAttend){
+      await prisma.workshop.update({
+        where: {
+          id: foundUser.workshopToAttend.id,
+        },
+        data: {
+          attenders: {
+            disconnect: {
+              Id: foundUser.Id,
+            },
+          },
+        },
+      })
+    }
+
+    if(foundUser?.WorkshopToLecture){
+      await prisma.workshop.update({
+        where: {
+          id: foundUser.WorkshopToLecture.id,
+        },
+        data: {
+          lecturers: {
+            disconnect: {
+              Id: foundUser.Id,
+            },
+          },
+        },
+      })
+    }
+
    await prisma.user.delete({
      where: {
         Id: params.userId,

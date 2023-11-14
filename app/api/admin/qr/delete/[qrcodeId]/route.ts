@@ -12,8 +12,30 @@ export async function DELETE( req: Request,
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return new NextResponse("Unauthorized", { status: 401 })
   }
-
   try {
+  const qrCode = await prisma.qrCode.findUnique({
+    where: {
+      id: params.qrcodeId,
+    },
+    include:{
+      Workshop: true,
+    }
+  })
+
+  if(!qrCode){
+    return new NextResponse("Not Found", { status: 404 })
+  }
+
+  if(qrCode.Workshop){
+    await prisma.workshop.update({
+      where: {
+        id: qrCode.Workshop.id,
+      },
+      data: {
+        qrCodeId: null,
+      },
+    })
+  }
     await prisma.qrCode.delete({
       where: {
         id: params.qrcodeId,

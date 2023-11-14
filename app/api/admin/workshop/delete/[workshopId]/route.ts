@@ -14,7 +14,67 @@ export async function DELETE( req: Request,
   }
 
   try {
-    await prisma.workshop.delete({
+
+  const workshop = await prisma.workshop.findUnique({
+    where: {
+      id: params.workshopId,
+    },
+    include:{
+      qrCode: true,
+      attenders: true,
+      lecturers: true,
+    }
+  })
+
+  if (!workshop) {
+    return new NextResponse("Not Found", { status: 404 })
+  }
+
+  if(workshop.qrCodeId !== null){
+    console.log("KURWA " + workshop.qrCodeId)
+   let deleted = await prisma.qrCode.delete({
+      where: {
+        id: workshop.qrCodeId,
+      },
+    })
+    console.log(deleted)
+  }
+  if(workshop.attenders.length > 0){
+    await prisma.user.updateMany({
+      where: {
+        Id: {
+          in: workshop.attenders.map((attender) => attender.Id),
+        },
+      },
+      data: {
+        workshopToAttendId: {
+          set: null,
+        },
+
+        },
+      },
+    )
+  }
+
+  if(workshop.lecturers.length > 0){
+    await prisma.user.updateMany({
+      where: {
+        Id: {
+          in: workshop.lecturers.map((lecturer) => lecturer.Id),
+        },
+      },
+      data: {
+        workshopToLectureId: {
+          set: null,
+        },
+
+        },
+      },
+    )
+  }
+
+
+await prisma.workshop.delete({
       where: {
         id: params.workshopId,
       },
