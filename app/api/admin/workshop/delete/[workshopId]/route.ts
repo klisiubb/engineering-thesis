@@ -8,7 +8,7 @@ export async function DELETE( req: Request,
   { params }: { params: { workshopId: string } }
 ){
   const user = await currentUser()
-
+  
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return new NextResponse("Unauthorized", { status: 401 })
   }
@@ -25,7 +25,7 @@ export async function DELETE( req: Request,
       lecturers: true,
     }
   })
-
+  
   if (!workshop) {
     return new NextResponse("Not Found", { status: 404 })
   }
