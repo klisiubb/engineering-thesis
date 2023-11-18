@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         return new NextResponse("You are not a participant!", { status: 403 });
     }
 
-    //Find QR Code by ID, check if user scanned it already
+    //Find QR Code by ID,
 
     const qrCode = await prisma.qrCode.findUnique({
         where: {
@@ -45,16 +45,51 @@ export async function POST(req: Request) {
         },
         include: {
             Workshop: true,
-            //User: true,
+            scannedBy: true,
         },
     });
+
     if (!qrCode) {
         return new NextResponse("Not Found", { status: 404 });
     }
     if(qrCode.workshopId !== user.workshopToAttendId){
         return new NextResponse("You are not a participant of this workshop!", { status: 403 });
     }
-
+    
+    //Check if user already scanned this QR Code
+    const alreadyScanned = qrCode.scannedBy.find((scannedBy) => scannedBy.Id === user.Id);
+    if (alreadyScanned) {
+        return new NextResponse("Already scanned this QR Code!", { status: 403 });
+    }
+    //Calculate all uses of this QR Code and check if is not more than max uses
+    const scannedBy = qrCode.scannedBy.length + 1;
+    if (scannedBy > qrCode.maxUses) {
+        return new NextResponse("Max uses reached!", { status: 403 });
+    }
+    //Add user to scannedBy
+    await prisma.qrCode.update({
+        where: {
+            id: qrCodeId,
+        },
+        data: {
+            scannedBy: {
+                connect: {
+                    Id: user.Id,
+                },
+            },
+        },
+    });
+    await prisma.user.update({
+        where: {
+            Id: user.Id,
+        },
+        data: {
+            points: {
+                increment: qrCode.value ?? 0,
+            },
+        },
+    });
+    return new NextResponse("Scanned!", { status: 200 });    
 
 
     

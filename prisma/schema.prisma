@@ -33,6 +33,7 @@ model User {
   workshopToAttendId  String?
   WorkshopToLecture   Workshop? @relation(name: "WorkshopLecturers", fields: [workshopToLectureId], references: [id])
   workshopToLectureId String?
+  QrCode              QrCode[]  @relation(name: "ScannedBy")
 }
 
 model Workshop {
@@ -75,4 +76,5 @@ model QrCode {
   isPublished Boolean   @default(false)
   Workshop    Workshop? @relation(name: "WorkshopQRCode")
   workshopId  String?
+  scannedBy   User[]    @relation(name: "ScannedBy")
 }
