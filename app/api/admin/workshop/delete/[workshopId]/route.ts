@@ -31,7 +31,6 @@ export async function DELETE( req: Request,
   }
 
   if(workshop.qrCodeId !== null){
-    console.log("KURWA " + workshop.qrCodeId)
    let deleted = await prisma.qrCode.delete({
       where: {
         id: workshop.qrCodeId,
