@@ -10,7 +10,7 @@ export const NavbarRoutes = async () => {
       <div className="flex gap-x-2 ml-auto">
         {user?.publicMetadata.role === Role.ADMIN ? (
           <Button asChild size="sm" variant="ghost">
-            <Link href="/admin">Admin Panel</Link>
+            <Link href="/admin/workshop">Admin Panel</Link>
           </Button>
         ) : null}
         <Button asChild size="sm" variant="ghost">

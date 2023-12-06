@@ -1,22 +1,10 @@
 "use client";
 
-import {
-  BarChart,
-  CalendarDays,
-  HomeIcon,
-  QrCode,
-  Trophy,
-  Users,
-} from "lucide-react";
+import { CalendarDays, QrCode, Trophy, Users } from "lucide-react";
 
 import { SidebarItem } from "./sidebar-item";
 
 const adminRoutes = [
-  {
-    icon: HomeIcon,
-    label: "Home",
-    href: "/admin",
-  },
   {
     icon: CalendarDays,
     label: "Workshops",

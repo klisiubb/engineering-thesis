@@ -18,9 +18,12 @@ const RewardsPage = async () => {
     <div className="p-6">
       <div className="flex flex-col gap-y-2">
         <h1 className="text-2xl font-medium">Rewards:</h1>
-        <div className="mb-4">
+        <div className="mb-4 space-x-2">
           <Button asChild size="sm" variant="default">
             <Link href="/admin/reward/create">Add new reward</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/admin/reward/draw">Draw rewards</Link>
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
