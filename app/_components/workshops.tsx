@@ -17,7 +17,7 @@ const WorkshopsComponent = async () => {
   }
   return (
     <div className="text-center mt-2">
-      <h1 className="text-4xl font-bold mb-4">Our current workshops:</h1>
+      <h1 className="text-4xl font-bold mb-4">Workshops:</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
         {workshops.map((workshop) => (
           <WorkshopCard key={workshop.id} id={workshop.id} />
