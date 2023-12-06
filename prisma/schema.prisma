@@ -28,7 +28,7 @@ model User {
   isPresentAtEvent    Boolean   @default(false)
   isPresentAtWorkshop Boolean   @default(false)
   isWinner            Boolean   @default(false)
-  Reward              Reward[]
+  Reward              Reward[]  @relation(name: "RewardWinners")
   workshopToAttend    Workshop? @relation(name: "WorkshopAttenders", fields: [workshopToAttendId], references: [id])
   workshopToAttendId  String?
   WorkshopToLecture   Workshop? @relation(name: "WorkshopLecturers", fields: [workshopToLectureId], references: [id])
@@ -61,8 +61,7 @@ model Reward {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isPublished Boolean  @default(false)
-  User        User?    @relation(fields: [userId], references: [externalId])
-  userId      String?
+  winners     User[]   @relation(name: "RewardWinners")
 }
 
 model QrCode {
