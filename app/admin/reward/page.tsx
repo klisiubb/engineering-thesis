@@ -22,9 +22,6 @@ const RewardsPage = async () => {
           <Button asChild size="sm" variant="default">
             <Link href="/admin/reward/create">Add new reward</Link>
           </Button>
-          <Button asChild size="sm" variant="outline">
-            <Link href="/admin/reward/draw">Draw rewards</Link>
-          </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
           {rewards.map((reward) => (

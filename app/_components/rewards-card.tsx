@@ -37,10 +37,8 @@ const RewardCard = async ({ id }: { id: string }) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <div className="mb-2">List of winners:</div>
           <div className="flex">
             <ul className="list-disc list-inside">
-              {reward.winners.length === 0 && <li>No winners yet</li>}
               {reward.winners.map((winner) => (
                 <div key={winner.firstName} className="flex mx-2">
                   <Trophy />
