@@ -14,7 +14,6 @@ export const corsHeaders = {
   }
 
 export async function GET( req: Request){
-    //Get user from request
     const publicKey = `
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZkhZ3JnWPgQK8P+n79h
     jlEOuTstNjgz+NpaLUp/x+zc+IPfpX8Ubx0IGjyafMNhy0apGY3UIsB8mjpbWEN/

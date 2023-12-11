@@ -30,36 +30,10 @@ export async function GET( req: Request){
       return NextResponse.json({error: "Unauthorized"}, {status: 401});
     }
   
-      let decoded = jwt.decode(token, { complete: true });
-    
-      const publicworkshops =  await prisma.workshop.findMany({
-        where: {
-          isPublic: true
-        },
-        include: {
-          lecturers: true,
-        }
-        });
+      let decoded = jwt.decode(token, { complete: true });  
+    const decodedSub = decoded?.payload.sub as string;
 
-        const decodedSub = decoded?.payload.sub as string;
+    let data = ""
 
-        const hisWorkshop = await prisma.workshop.findMany({
-          include: {
-            attenders: true,
-            lecturers: true,
-          },
-          where: {
-            attenders: {
-              some: {
-                externalId: decodedSub,
-              },
-            },
-          },
-        });
-        const firstWorkshop = hisWorkshop[0];
-        
-        const combinedWorkshops = [...publicworkshops, ...hisWorkshop];
-
-
-    return NextResponse.json(combinedWorkshops, { headers: corsHeaders });
+    return NextResponse.json(data, { headers: corsHeaders });
 }
