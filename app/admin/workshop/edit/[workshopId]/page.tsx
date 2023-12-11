@@ -9,10 +9,11 @@ import EndDateForm from "../../_components/end-date-form";
 import SaveForm from "../../_components/save-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import { Role } from "@prisma/client";
+import { IsPublicForm } from "../../_components/ispublic-form";
 const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const user = await currentUser();
 
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return redirect("/");
@@ -21,6 +22,10 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
   const workshop = await prisma.workshop.findUnique({
     where: {
       id: params.workshopId,
+    },
+    include: {
+      lecturers: true,
+      attenders: true,
     },
   });
 
@@ -72,9 +77,15 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
             <TopicForm initialData={workshop} workshopId={workshop.id} />
             <DescriptionForm initialData={workshop} workshopId={workshop.id} />
             <RoomForm initialData={workshop} workshopId={workshop.id} />
-            <MaxAttendersForm initialData={workshop} workshopId={workshop.id} />
             <StartDateForm initialData={workshop} workshopId={workshop.id} />
             <EndDateForm initialData={workshop} workshopId={workshop.id} />
+            <IsPublicForm initialData={workshop} workshopId={workshop.id} />
+            {!workshop.isPublic ? (
+              <MaxAttendersForm
+                initialData={workshop}
+                workshopId={workshop.id}
+              />
+            ) : null}
           </>
         )}
       </div>

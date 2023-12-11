@@ -8,7 +8,12 @@ import { prisma } from "@/lib/db";
 import WorkshopCard from "./_components/workshop-card";
 
 const WorkshopPage = async () => {
-  const workshops = await prisma.workshop.findMany();
+  const workshops = await prisma.workshop.findMany({
+    include: {
+      lecturers: true,
+      attenders: true,
+    },
+  });
 
   const user = await currentUser();
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
@@ -27,7 +32,10 @@ const WorkshopPage = async () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
           {workshops.map((workshop) => (
             <div key={workshop.id}>
-              <WorkshopCard {...workshop} />
+              <WorkshopCard
+                workshop={workshop}
+                attenders={workshop.attenders.length}
+              />
             </div>
           ))}
         </div>

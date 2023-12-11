@@ -17,7 +17,6 @@ export async function PATCH(
   if (!values) {
     return new NextResponse("Data must be provided", { status: 400 })
   }
-
   try {
     const workshop = await prisma.workshop.update({
       where: {

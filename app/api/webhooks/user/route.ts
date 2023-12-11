@@ -28,7 +28,7 @@ async function handler (req:Request) {
     }
     const eventType: EventType = event.type;
 
-        const {id,email_addresses, external_accounts, first_name, last_name } =  event.data as User
+        const {id,email_addresses, external_accounts, first_name, last_name, public_metadata } =  event.data as User
         const emailAddress = email_addresses[0].email_address;
         const pictureUrl = external_accounts[0].picture;
 
@@ -59,7 +59,8 @@ async function handler (req:Request) {
                 email: emailAddress,
                 firstName: first_name,
                 lastName: last_name,
-                picture: pictureUrl
+                picture: pictureUrl,
+                role: public_metadata.role as Role
             }
         })
     }

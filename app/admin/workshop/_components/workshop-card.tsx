@@ -15,7 +15,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
-const WorkshopCard = (workshop: Workshop) => {
+const WorkshopCard = ({
+  workshop,
+  attenders,
+}: {
+  workshop: Workshop;
+  attenders: number;
+}) => {
   const router = useRouter();
   const onClick = async () => {
     try {
@@ -33,7 +39,6 @@ const WorkshopCard = (workshop: Workshop) => {
       toast.error("An error occurred while deleting workshop");
     }
   };
-
   return (
     <>
       <Card className="w-96">
@@ -50,13 +55,15 @@ const WorkshopCard = (workshop: Workshop) => {
             <p className="text-gray-700" suppressHydrationWarning>
               End date: {new Date(workshop.endDate).toLocaleString()}
             </p>
-            <p className="text-gray-700">Room: {workshop.room}</p>
             <p className="text-gray-700">
-              Maximum attenders:{" "}
+              Room: {workshop.room ? workshop.room : "Not set"}
+            </p>
+            <p className="text-gray-700">
+              Publicity:{" "}
               <span>
-                {workshop.maxAttenders === 0
-                  ? "Not applicable"
-                  : workshop.maxAttenders}
+                {workshop.isPublic
+                  ? "Public"
+                  : "Private " + attenders + "/" + workshop.maxAttenders}
               </span>
             </p>
             {workshop.isPublished ? (
@@ -64,6 +71,9 @@ const WorkshopCard = (workshop: Workshop) => {
             ) : (
               <p className="text-red-700 font-semibold">Unpublished</p>
             )}
+            <p className=" text-sm italic text-gray-600">
+              Dont forget to set lecturer(s) for this workshop in users edit!
+            </p>
           </div>
         </CardContent>
         <hr className="mb-2" />
