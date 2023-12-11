@@ -28,11 +28,17 @@ const PublicWorkshopCard = async ({ id }: { id: string }) => {
         <CardTitle>
           {workshop.topic} presented by
           <ul>
-            {workshop.lecturers.map((lecturer) => (
-              <li key={lecturer.Id}>
-                {lecturer.firstName} {lecturer.lastName}
-              </li>
-            ))}
+            {workshop.lecturers.length === 0 ? (
+              "UBB"
+            ) : (
+              <>
+                {workshop.lecturers.map((lecturer) => (
+                  <li key={lecturer.Id}>
+                    {lecturer.firstName} {lecturer.lastName}
+                  </li>
+                ))}
+              </>
+            )}
           </ul>
         </CardTitle>
         <CardDescription>Public workshop</CardDescription>
