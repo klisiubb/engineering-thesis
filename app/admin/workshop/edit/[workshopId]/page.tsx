@@ -9,7 +9,15 @@ import EndDateForm from "../../_components/end-date-form";
 import SaveForm from "../../_components/save-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import { Role } from "@prisma/client";
 const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  if (!user || user.publicMetadata.role !== Role.ADMIN) {
+    return redirect("/");
+  }
+
   const workshop = await prisma.workshop.findUnique({
     where: {
       id: params.workshopId,

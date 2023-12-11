@@ -6,7 +6,10 @@ import SaveForm from "../../_components/save-form";
 import { DescriptionForm } from "../../_components/description-form";
 import { QuantityForm } from "../../_components/quantity-form";
 import { NameForm } from "../../_components/name-form";
+import { useUser } from "@clerk/nextjs";
+import { Role } from "@prisma/client";
 const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
+  const { isLoaded, isSignedIn, user } = useUser();
   const reward = await prisma.reward.findUnique({
     where: {
       id: params.rewardId,
@@ -15,6 +18,10 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
 
   if (!reward) {
     return redirect("/admin/reward/");
+  }
+
+  if (!user || user.publicMetadata.role !== Role.ADMIN) {
+    return redirect("/");
   }
 
   const requiredFields = [reward.quantity, reward.description, reward.name];

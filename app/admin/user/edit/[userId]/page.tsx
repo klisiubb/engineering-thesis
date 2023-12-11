@@ -8,14 +8,21 @@ import { RoleForm } from "../../_components/update-role-form";
 import { Role } from "@prisma/client";
 import { LectureForm } from "../../_components/lecture-form";
 import { WorkshopForm } from "../../_components/workshop-form";
+import { useUser } from "@clerk/nextjs";
 const UserEditPage = async ({ params }: { params: { userId: string } }) => {
-  const user = await prisma.user.findUnique({
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  if (!user || user.publicMetadata.role !== Role.ADMIN) {
+    return redirect("/");
+  }
+
+  const userToEdit = await prisma.user.findUnique({
     where: {
       Id: params.userId,
     },
   });
 
-  if (!user) {
+  if (!userToEdit) {
     return redirect("/admin/user/");
   }
 
@@ -40,31 +47,33 @@ const UserEditPage = async ({ params }: { params: { userId: string } }) => {
         suppressHydrationWarning
       >
         <FirstNameForm
-          firstName={user.firstName ? user.firstName : ""}
-          userId={user.Id}
+          firstName={userToEdit.firstName ? userToEdit.firstName : ""}
+          userId={userToEdit.Id}
         />
         <LastNameForm
-          lastName={user.lastName ? user.lastName : ""}
-          userId={user.Id}
+          lastName={userToEdit.lastName ? userToEdit.lastName : ""}
+          userId={userToEdit.Id}
         />
-        <RoleForm role={user.role} userId={user.Id} />
+        <RoleForm role={userToEdit.role} userId={userToEdit.Id} />
 
-        {user.role === Role.LECTURER && (
+        {userToEdit.role === Role.LECTURER && (
           <LectureForm
             workshopToLectureId={
-              user.workshopToLectureId ? user.workshopToLectureId : ""
+              userToEdit.workshopToLectureId
+                ? userToEdit.workshopToLectureId
+                : ""
             }
-            userId={user.Id}
+            userId={userToEdit.Id}
             workshops={workshops}
           />
         )}
 
-        {user.role === Role.USER && (
+        {userToEdit.role === Role.USER && (
           <WorkshopForm
             workshopToAttendId={
-              user.workshopToAttendId ? user.workshopToAttendId : ""
+              userToEdit.workshopToAttendId ? userToEdit.workshopToAttendId : ""
             }
-            userId={user.Id}
+            userId={userToEdit.Id}
             workshops={workshops}
           />
         )}
