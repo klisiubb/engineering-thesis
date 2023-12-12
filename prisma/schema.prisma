@@ -26,7 +26,6 @@ model User {
   role                Role      @default(USER)
   points              Int       @default(0)
   isPresentAtEvent    Boolean   @default(false)
-  isPresentAtWorkshop Boolean   @default(false)
   isWinner            Boolean   @default(false)
   Reward              Reward[]  @relation(name: "RewardWinners")
   workshopToAttend    Workshop? @relation(name: "WorkshopAttenders", fields: [workshopToAttendId], references: [id])
