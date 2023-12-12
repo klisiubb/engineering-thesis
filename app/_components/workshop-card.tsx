@@ -8,14 +8,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { prisma } from "@/lib/db";
-import { auth, useUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { Calendar, CalendarCheck, MapPin } from "lucide-react";
 import RegisterFor from "./register-for";
 import { Role } from "@prisma/client";
 import Link from "next/link";
 
 const WorkshopCard = async ({ id }: { id: string }) => {
-  const { userId, user } = auth();
+  const { userId } = auth();
 
   const loggedUser = await prisma.user.findFirst({
     where: {
@@ -106,7 +106,9 @@ const WorkshopCard = async ({ id }: { id: string }) => {
               </Button>
             ) : isSignedForWorkshop || loggedUser.role !== Role.USER ? (
               <Button variant="destructive" disabled>
-                Already signed in
+                {loggedUser.role !== Role.USER
+                  ? "Only users can register"
+                  : "You are already signed!"}
               </Button>
             ) : (
               <RegisterFor workshopId={workshop.id} userId={userId as string} />
