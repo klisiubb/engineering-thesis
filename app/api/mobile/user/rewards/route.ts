@@ -30,35 +30,14 @@ export async function GET( req: Request){
     }
   
       let decoded = jwt.decode(token, { complete: true });
-    
-      const publicworkshops =  await prisma.workshop.findMany({
-        where: {
-          isPublic: true
-        },
-        include: {
-          lecturers: true,
-        }
-        });
 
         const decodedSub = decoded?.payload.sub as string;
 
-        const hisWorkshop = await prisma.workshop.findMany({
-          include: {
-            attenders: true,
-            lecturers: true,
-          },
-          where: {
-            attenders: {
-              some: {
-                externalId: decodedSub,
-              },
-            },
-          },
-        });
-        const firstWorkshop = hisWorkshop[0];
-        
-        const combinedWorkshops = [...publicworkshops, ...hisWorkshop];
+        const data = await prisma.reward.findMany({
+            where: {
+                isPublished: true,
+            }});
 
 
-    return NextResponse.json(combinedWorkshops, { headers: corsHeaders });
+    return NextResponse.json(data, { headers: corsHeaders });
 }

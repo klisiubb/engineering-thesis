@@ -72,7 +72,8 @@ const WorkshopCard = ({
               <p className="text-red-700 font-semibold">Unpublished</p>
             )}
             <p className=" text-sm italic text-gray-600">
-              Dont forget to set lecturer(s) for this workshop in users edit!
+              Dont forget to set lecturer(s) and generate QR Code for this
+              workshop!
             </p>
           </div>
         </CardContent>

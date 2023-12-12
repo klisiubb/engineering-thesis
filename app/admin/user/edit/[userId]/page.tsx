@@ -8,9 +8,9 @@ import { RoleForm } from "../../_components/update-role-form";
 import { Role } from "@prisma/client";
 import { LectureForm } from "../../_components/lecture-form";
 import { WorkshopForm } from "../../_components/workshop-form";
-import { useUser } from "@clerk/nextjs";
+import { currentUser, useUser } from "@clerk/nextjs";
 const UserEditPage = async ({ params }: { params: { userId: string } }) => {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const user = await currentUser();
 
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return redirect("/");

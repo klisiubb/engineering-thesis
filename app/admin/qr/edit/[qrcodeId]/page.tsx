@@ -7,7 +7,7 @@ import SaveForm from "../../_components/save-form";
 import { ValueForm } from "../../_components/value-form";
 import { MaxUsesForm } from "../../_components/max-uses-form";
 import { WorkshopForm } from "../../_components/workshop-form";
-import { useUser } from "@clerk/nextjs";
+import { currentUser, useUser } from "@clerk/nextjs";
 import { Role } from "@prisma/client";
 const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
   const qrcode = await prisma.qrCode.findUnique({
@@ -24,7 +24,7 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
       },
     },
   });
-  const { isLoaded, isSignedIn, user } = useUser();
+  const user = await currentUser();
 
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
     return redirect("/");

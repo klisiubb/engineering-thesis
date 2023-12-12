@@ -6,10 +6,10 @@ import SaveForm from "../../_components/save-form";
 import { DescriptionForm } from "../../_components/description-form";
 import { QuantityForm } from "../../_components/quantity-form";
 import { NameForm } from "../../_components/name-form";
-import { useUser } from "@clerk/nextjs";
+import { currentUser, useUser } from "@clerk/nextjs";
 import { Role } from "@prisma/client";
 const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const user = await currentUser();
   const reward = await prisma.reward.findUnique({
     where: {
       id: params.rewardId,
