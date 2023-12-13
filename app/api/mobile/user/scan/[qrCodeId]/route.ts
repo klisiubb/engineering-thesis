@@ -1,21 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as jwt from "jsonwebtoken";
 import { prisma } from "@/lib/db";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Role } from "@prisma/client";
+
 
 export const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  };
-  
-  
-  export async function OPTIONS(req: NextRequest) {
-    return NextResponse.json({}, { headers: corsHeaders });
-  }
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
-export async function POST( req: Request, { params }: { params: { qrCodeId: string }} ){
+
+export async function OPTIONS(req: NextRequest) {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
+
+export async function GET( req:Request, { params }: { params: { qrCodeId: string }}){
   
-  console.log(params)
 
   const { qrCodeId } = params
 
@@ -30,12 +33,15 @@ export async function POST( req: Request, { params }: { params: { qrCodeId: stri
     `;
   
     const token =  req.headers.get("Authorization")?.split(" ")[1] as string;
-  
+   
+ 
+
     if(!token){
-      return NextResponse.json({error: "Unauthorized"}, {status: 401});
+      return NextResponse.json({message: "Unauthorized token error"}, {headers:corsHeaders,status: 401});
     }
   
       let decoded = jwt.decode(token, { complete: true });  
+
     const decodedSub = decoded?.payload.sub as string;
 
 const user = await prisma.user.findUnique({
@@ -48,8 +54,8 @@ const user = await prisma.user.findUnique({
 })
  
 
-  if(!user || user.role !== "USER"){
-    return NextResponse.json({error: "Unauthorized"}, {status: 401});
+  if(!user || user.role !== Role.USER){
+    return NextResponse.json({message: "Unauthorized role or user"}, {headers:corsHeaders,status: 401}, );
   }
 
   const qrCode = await prisma.qrCode.findUnique({
@@ -62,26 +68,26 @@ const user = await prisma.user.findUnique({
     }
   })
   if(!qrCode || qrCode.isPublished === false){
-    return NextResponse.json({error: "QR code not found"}, {status: 404});
+    return NextResponse.json({message: "QR code not found"}, {headers:corsHeaders,status: 404});
   }
 
   //Check if user already scanned this qr code
   const alreadyScanned = qrCode.scannedBy.find((scannedBy) => scannedBy.externalId === decodedSub)
   if(alreadyScanned){
-    return NextResponse.json({error: "Already scanned"}, {status: 400});
+    return NextResponse.json({message: " You already scanned this QR Code"}, {headers:corsHeaders,status: 400});
   }
   //Check if qr limit is reached
    const scannedCount = qrCode.scannedBy.length;
    if(scannedCount >= qrCode.maxUses)
     {
-      return NextResponse.json({error: "QR limit reached"}, {status: 400});
+      return NextResponse.json({message: "QR Code was scanned too many times!"}, {headers:corsHeaders,status: 400});
     }
 
     // if is workshop only check if user is registered to workshop
-    if(qrCode.workshopId !== undefined || qrCode.workshopId!== null){
+   /* if(qrCode.workshopId !== undefined || qrCode.workshopId!== null){
       
       if(qrCode.workshopId !== user.workshopToAttendId){
-        return NextResponse.json({error: "Unauthorized"}, {status: 401});
+        return NextResponse.json({message: "Unauthorized HERE?"}, {headers:corsHeaders,status: 401});
       }
       
       await prisma.qrCode.update({
@@ -108,8 +114,9 @@ const user = await prisma.user.findUnique({
     }
       })
 
-      return NextResponse.json({success: "Scanned"}, {status: 200});
+      return NextResponse.json({success: "Sucessfully scanned this QR Code!"}, {headers: corsHeaders ,status: 200});
     }
+    */
     await prisma.qrCode.update({
       where: {
         id: qrCodeId
@@ -132,5 +139,5 @@ const user = await prisma.user.findUnique({
       }
   }
     })
-    return NextResponse.json({success: "Scanned"}, { headers: corsHeaders });
+    return NextResponse.json({success: "Sucessfully scanned this QR Code!"}, {headers: corsHeaders, status: 200});
 }

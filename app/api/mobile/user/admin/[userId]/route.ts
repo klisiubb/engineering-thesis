@@ -4,19 +4,18 @@ import { prisma } from "@/lib/db";
 import { Role } from "@prisma/client";
 
 export const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  };
-  
-  
-  export async function OPTIONS(req: NextRequest) {
-    return NextResponse.json({}, { headers: corsHeaders });
-  }
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
-export async function POST( req: Request, { params }: { params: { userId: string }} ){
+
+export async function OPTIONS(req: NextRequest) {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
+export async function GET( req: Request, { params }: { params: { userId: string }} ){
   
-  console.log(params)
 
   const { userId } = params
 
@@ -33,7 +32,7 @@ export async function POST( req: Request, { params }: { params: { userId: string
     const token =  req.headers.get("Authorization")?.split(" ")[1] as string;
   
     if(!token){
-      return NextResponse.json({error: "Unauthorized"}, {status: 401});
+      return NextResponse.json({message: "Unauthorized"}, { headers: corsHeaders ,status: 401});
     }
   
       let decoded = jwt.decode(token, { complete: true });  
@@ -48,34 +47,34 @@ const user = await prisma.user.findUnique({
  
 
   if(!user || user.role  === Role.USER){
-    return NextResponse.json({error: "Unauthorized"}, {status: 401});
+    return NextResponse.json({message: "Unauthorized"}, { headers: corsHeaders ,status: 401});
   }
 
   // User provided to scan
     const userToScan = await prisma.user.findUnique({
         where: {
-        Id: userId
+        externalId: userId
         },
     })
 
     if(!userToScan){
-        return NextResponse.json({error: "User not found"}, {status: 404});
+        return NextResponse.json({message: "User not found"}, { headers: corsHeaders ,status: 404});
     }
 
     if(userToScan.role !== Role.USER){
-        return NextResponse.json({error: "User is not user role"}, {status: 404});
+        return NextResponse.json({message: "User is not user role!"}, { headers: corsHeaders ,status: 404});
     }
     if(userToScan.isPresentAtEvent === true){
-        return NextResponse.json({error: "User is already present at event"}, {status: 404});
+        return NextResponse.json({message: "User is already present at event!"}, { headers: corsHeaders ,status: 404});
     }
     await prisma.user.update({
         where: {
-            Id: userId
+          externalId: userId
         },
         data: {
             isPresentAtEvent: true,
             }
         }
     ) 
-    return NextResponse.json({success: "Set as present!"}, { headers: corsHeaders });
+    return NextResponse.json({message: "User set as present!"}, { headers: corsHeaders, status:200 });
 }
