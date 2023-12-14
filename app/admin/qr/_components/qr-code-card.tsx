@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -14,7 +13,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
-import Image from "next/image";
 // @ts-ignore
 import { triggerBase64Download } from "react-base64-downloader";
 const QRCodeCard = (qrcode: QrCode) => {

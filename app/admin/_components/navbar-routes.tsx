@@ -1,12 +1,9 @@
 "use client";
-import { usePathname } from "next/navigation";
-
 import { Button } from "@/components/ui/button";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 export const NavbarRoutes = () => {
-  const pathname = usePathname();
   return (
     <>
       <div className="flex gap-x-2 ml-auto">

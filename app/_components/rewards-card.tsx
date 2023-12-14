@@ -1,22 +1,14 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { prisma } from "@/lib/db";
-import { auth, useUser } from "@clerk/nextjs";
-import { Calendar, CalendarCheck, MapPin, Trophy } from "lucide-react";
-import RegisterFor from "./register-for";
-import { Role } from "@prisma/client";
-import Link from "next/link";
+import { Trophy } from "lucide-react";
 
 const RewardCard = async ({ id }: { id: string }) => {
-  const { userId, user } = auth();
-
   const reward = await prisma.reward.findUnique({
     where: {
       id,
