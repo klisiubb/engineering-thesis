@@ -1,17 +1,52 @@
-
 import { prisma } from "@/lib/db"
-import { currentUser } from "@clerk/nextjs"
 import { Role } from "@prisma/client"
-import { NextResponse } from "next/server"
+import { NextResponse,NextRequest } from "next/server"
+import * as jwt from "jsonwebtoken";
+
+export const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+  
+  
+  export async function OPTIONS(req: NextRequest) {
+    return NextResponse.json({}, { headers: corsHeaders });
+  }
 
 export async function GET( req: Request,
   { params }: { params: { rewardId: string } }
 ){
-  const user = await currentUser()
 
-  if (!user || user.publicMetadata.role !== Role.ADMIN) {
-    return new NextResponse("Unauthorized", { status: 401 })
-  }
+    const publicKey = `
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZkhZ3JnWPgQK8P+n79h
+    jlEOuTstNjgz+NpaLUp/x+zc+IPfpX8Ubx0IGjyafMNhy0apGY3UIsB8mjpbWEN/
+    9zqXmPYnSMMkKpSfkF+aauDmOaU19G+aYcNJuxny8btFjJVgpHBpPbHQtWTz84GR
+    MoTfcP0zf22GtFqyM9PvSJv8AfnI6Bj1WTcdU34mjV8u4eZdwIPFGVa4AEE+9uWY
+    UT0icUlPpupybjNXozQe+4y78kLzNs6hjnEckriL1VKZOI/2/ieb66m7E8EUiwAK
+    dwi2gAAkZ5odr6IPcO3oa9ubVMxneKtg/t05Ok4Ar2Mwy9HqsPeYYAWz3xcz86pe
+    vwIDAQAB
+    `;
+  
+    const token =  req.headers.get("Authorization")?.split(" ")[1] as string;
+  
+    if(!token){
+      return NextResponse.json({message: "Unauthorized"}, { headers: corsHeaders ,status: 401});
+    }
+  
+      let decoded = jwt.decode(token, { complete: true });  
+    const decodedSub = decoded?.payload.sub as string;
+
+   let admin = await prisma.user.findUnique({
+        where: {
+            externalId: decodedSub
+        }
+    })
+
+    if(!admin || admin.role !== Role.ADMIN){
+        return NextResponse.json({message: "Unauthorized"}, { headers: corsHeaders ,status: 401});
+    }
+
 
   const reward = await prisma.reward.findUnique({
     where: {
@@ -25,7 +60,7 @@ export async function GET( req: Request,
     },
   })
   if(!reward){
-    return new NextResponse("Reward not found", { status: 404 })
+    return NextResponse.json({message: "Reward not found"}, { headers: corsHeaders, status: 404 })
   }
 
   //Get all users who are eligible for wining reward
@@ -40,7 +75,7 @@ export async function GET( req: Request,
         },
     })
     if(!usersEligible){
-        return new NextResponse("No users eligible for winning reward", { status: 404 })
+        return NextResponse.json({message:"No users eligible for winning reward"}, {  headers: corsHeaders,status: 404 })
     }
     
 
@@ -67,7 +102,7 @@ for (const user of usersEligible) {
 }
 
 if (!winner) {
-  return new NextResponse("Unable to select a winner", { status: 500 });
+  return NextResponse.json({message:"Unable to select a winner"}, { headers: corsHeaders,status: 500 });
 }
 
 // Mark the selected user as the winner in the database
@@ -92,6 +127,6 @@ await prisma.reward.update({
     let response =  winner.firstName + " " + winner.lastName;
 
 // Return success response
-return new NextResponse(response,{ status: 200 });
+return NextResponse.json({message: `Winner: ${winner.firstName} ${winner.lastName}.`},{ headers: corsHeaders, status: 200 });
 
 }

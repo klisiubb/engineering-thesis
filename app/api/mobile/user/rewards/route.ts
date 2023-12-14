@@ -36,7 +36,11 @@ export async function GET( req: Request){
         const data = await prisma.reward.findMany({
             where: {
                 isPublished: true,
-            }});
+            },
+            include: {
+                winners: true
+            }
+          });
 
 
     return NextResponse.json(data, { headers: corsHeaders });

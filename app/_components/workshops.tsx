@@ -6,14 +6,14 @@ const WorkshopsComponent = async () => {
   const publicWorkshops = await prisma.workshop.findMany({
     where: {
       isPublished: true,
-      isPublic: false,
+      isPublic: true,
     },
   });
 
   const privateWorkshops = await prisma.workshop.findMany({
     where: {
       isPublished: true,
-      isPublic: true,
+      isPublic: false,
     },
   });
   return (
