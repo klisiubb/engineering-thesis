@@ -13,7 +13,7 @@ const RewardsComponent = async () => {
   return (
     <div className="text-center mt-2">
       <h1 className="text-4xl font-bold mb-4">Rewards:</h1>
-      <p>Look what you can win!</p>
+      <p className="mb-2">Look what you can win!</p>
       {rewards.length === 0 ? (
         <div className="text-center mt-2">
           <p>No rewards available at the moment. Please come back later!</p>

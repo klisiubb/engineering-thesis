@@ -19,7 +19,7 @@ const WorkshopsComponent = async () => {
   return (
     <div className="text-center mt-2">
       <h1 className="text-4xl font-bold mb-4"> Public workshops:</h1>
-      <p>Everybody can take part in this workshops...</p>
+      <p className="mb-2">Everybody can take part in this workshops...</p>
       {publicWorkshops.length === 0 ? (
         <div className="text-center mt-2">
           <p>
