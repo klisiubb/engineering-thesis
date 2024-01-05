@@ -36,7 +36,7 @@ const WorkshopsComponent = async () => {
 
       <hr className="my-6" />
       <h1 className="text-4xl font-bold mb-4"> Private workshops:</h1>
-      <p>Sign up for private workshops if there is space...</p>
+      <p className="mb-2">Sign up for private workshops if there is space...</p>
       {privateWorkshops.length === 0 ? (
         <div className="text-center mt-2">
           <p>
