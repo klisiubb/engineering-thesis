@@ -106,7 +106,7 @@ export const WorkshopForm = ({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a workshop to lecture" />
+                          <SelectValue placeholder="Select a workshop to link QR code" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
