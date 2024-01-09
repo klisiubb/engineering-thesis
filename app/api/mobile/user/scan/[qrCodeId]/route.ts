@@ -1,20 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import * as jwt from "jsonwebtoken";
 import { prisma } from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
 import { Role } from "@prisma/client";
+import { corsHeaders } from "../../options";
 
-
-export const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
-
-
-export async function OPTIONS(req: NextRequest) {
-  return NextResponse.json({}, { headers: corsHeaders });
-}
 
 
 export async function GET( req:Request, { params }: { params: { qrCodeId: string }}){
@@ -139,5 +128,5 @@ const user = await prisma.user.findUnique({
       }
   }
     })
-    return NextResponse.json({success: "Sucessfully scanned this QR Code!"}, {headers: corsHeaders, status: 200});
+    return NextResponse.json({success: "Successfully scanned this QR Code!"}, {headers: corsHeaders, status: 200});
 }
