@@ -43,9 +43,9 @@ const user = await prisma.user.findUnique({
 })
  
 
-  if(!user || user.role !== Role.USER){
-    return NextResponse.json({message: "Unauthorized role or user"}, {headers:corsHeaders,status: 401}, );
-  }
+ // if(!user || user.role !== Role.USER){
+   // return NextResponse.json({message: "Unauthorized role or user"}, {headers:corsHeaders,status: 401}, );
+  //}
 
   const qrCode = await prisma.qrCode.findUnique({
     where: {
@@ -67,45 +67,15 @@ const user = await prisma.user.findUnique({
   }
   //Check if qr limit is reached
    const scannedCount = qrCode.scannedBy.length;
-   if(scannedCount >= qrCode.maxUses)
-    {
-      return NextResponse.json({message: "QR Code was scanned too many times!"}, {headers:corsHeaders,status: 400});
-    }
+   if (qrCode.maxUses > 0 && scannedCount >= qrCode.maxUses) {
+    return NextResponse.json(
+      { message: "QR Code was scanned too many times!" },
+      { headers: corsHeaders, status: 400 }
+    );
+  }
 
-    // if is workshop only check if user is registered to workshop
-   /* if(qrCode.workshopId !== undefined || qrCode.workshopId!== null){
-      
-      if(qrCode.workshopId !== user.workshopToAttendId){
-        return NextResponse.json({message: "Unauthorized HERE?"}, {headers:corsHeaders,status: 401});
-      }
-      
-      await prisma.qrCode.update({
-        where: {
-          id: qrCodeId
-        },
-        data: {
-          scannedBy: {
-            connect: {
-              externalId: decodedSub
-            }
-          }
-        }
-      })
+  //TODO CHECK IF QR IS WORKSHOP ONLY AND IF USER IS IN THIS WORKSHOP
 
-      await prisma.user.update({
-        where: {
-          externalId: decodedSub
-        },
-        data: {
-        points: {
-          increment: qrCode.value as number
-        }
-    }
-      })
-
-      return NextResponse.json({success: "Sucessfully scanned this QR Code!"}, {headers: corsHeaders ,status: 200});
-    }
-    */
     await prisma.qrCode.update({
       where: {
         id: qrCodeId
@@ -128,5 +98,5 @@ const user = await prisma.user.findUnique({
       }
   }
     })
-    return NextResponse.json({success: "Successfully scanned this QR Code!"}, {headers: corsHeaders, status: 200});
+    return NextResponse.json({message: "Successfully scanned this QR Code!"}, {headers: corsHeaders, status: 200});
 }
