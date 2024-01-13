@@ -75,6 +75,10 @@ const user = await prisma.user.findUnique({
   }
 
   //TODO CHECK IF QR IS WORKSHOP ONLY AND IF USER IS IN THIS WORKSHOP
+  if(qrCode.workshopId !== null && qrCode.workshopId !== user?.workshopToAttendId){
+    return NextResponse.json({message: "You are not in this workshop"}, {headers:corsHeaders,status: 400});
+  }
+
 
     await prisma.qrCode.update({
       where: {
