@@ -28,6 +28,7 @@ const RewardCard = async ({ id }: { id: string }) => {
         <CardDescription>{reward.description}</CardDescription>
       </CardHeader>
       <CardContent>
+           {/*
         <div className="space-y-2">
           <div className="flex">
             <ul className="list-disc list-inside">
@@ -40,6 +41,7 @@ const RewardCard = async ({ id }: { id: string }) => {
             </ul>
           </div>
         </div>
+        */}
       </CardContent>
     </Card>
   );

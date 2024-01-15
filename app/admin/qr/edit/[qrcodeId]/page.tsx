@@ -61,7 +61,7 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
         </div>
       </div>
       <div
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16"
+        className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4"
         suppressHydrationWarning
       >
         {qrcode.isPublished ? (
