@@ -51,6 +51,7 @@ model Workshop {
   attenders    User[]   @relation(name: "WorkshopAttenders")
   lecturers    User[]   @relation(name: "WorkshopLecturers")
   isPublic     Boolean  @default(true)
+  imageURL    String  @default("")
 }
 
 model Reward {
