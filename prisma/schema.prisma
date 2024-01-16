@@ -62,6 +62,7 @@ model Reward {
   updatedAt   DateTime @updatedAt
   isPublished Boolean  @default(false)
   winners     User[]   @relation(name: "RewardWinners")
+  imageURL    String  @default("")
 }
 
 model QrCode {
