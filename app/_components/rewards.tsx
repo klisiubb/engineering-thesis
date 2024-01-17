@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
-import RewardCard from "./rewards-card";
+import NewRewardsCard from "./new-rewards-card";
+
 
 const RewardsComponent = async () => {
   const rewards = await prisma.reward.findMany({
@@ -19,9 +20,9 @@ const RewardsComponent = async () => {
           <p>No rewards available at the moment. Please come back later!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
           {rewards.map((reward) => (
-            <RewardCard key={reward.id} id={reward.id} />
+            <NewRewardsCard key={reward.id} id={reward.id} />
           ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
-import WorkshopCard from "./workshop-card";
-import PublicWorkshopCard from "./public-workshop-card";
+import NewPrivateWorkshopComponent from "./new-private";
+import NewWorkshopCard from "./new-workshop-card";
 
 const WorkshopsComponent = async () => {
   const publicWorkshops = await prisma.workshop.findMany({
@@ -18,40 +18,18 @@ const WorkshopsComponent = async () => {
   });
   return (
     <div className="text-center mt-2">
-      <h1 className="text-4xl font-bold mb-4"> Public workshops:</h1>
-      <p className="mb-2">Everybody can take part in this workshops...</p>
-      {publicWorkshops.length === 0 ? (
-        <div className="text-center mt-2">
-          <p>
-            No public workshops available at the moment. Please come back later!
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
+      <h1 className="text-4xl  mb-4 uppercase tracking-wide  text-neutral-800 font-semibold">Lectures:</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
           {publicWorkshops.map((workshop) => (
-            <PublicWorkshopCard key={workshop.id} id={workshop.id} />
+            <NewWorkshopCard key={workshop.id} id={workshop.id} />
           ))}
         </div>
-      )}
-
-      <hr className="my-6" />
-      <h1 className="text-4xl font-bold mb-4"> Private workshops:</h1>
-      <p className="mb-2">Sign up for private workshops if there is space...</p>
-      {privateWorkshops.length === 0 ? (
-        <div className="text-center mt-2">
-          <p>
-            No private workshops available at the moment. Please come back
-            later!
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8">
+        <h1 className="text-4xl  mb-4 uppercase tracking-wide  text-neutral-800 font-semibold">Workshops:</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
           {privateWorkshops.map((workshop) => (
-            <WorkshopCard key={workshop.id} id={workshop.id} />
+            <NewPrivateWorkshopComponent key={workshop.id} id={workshop.id} />
           ))}
         </div>
-      )}
-      <hr className="my-6" />
     </div>
   );
 };
