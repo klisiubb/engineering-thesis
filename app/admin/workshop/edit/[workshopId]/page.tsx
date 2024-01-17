@@ -12,6 +12,7 @@ import Link from "next/link";
 import { currentUser } from "@clerk/nextjs";
 import { Role } from "@prisma/client";
 import { IsPublicForm } from "../../_components/ispublic-form";
+import { ImageURLForm } from "../../_components/url-form";
 const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
   const user = await currentUser();
 
@@ -76,9 +77,10 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
           <>
             <TopicForm initialData={workshop} workshopId={workshop.id} />
             <DescriptionForm initialData={workshop} workshopId={workshop.id} />
-            <RoomForm initialData={workshop} workshopId={workshop.id} />
             <StartDateForm initialData={workshop} workshopId={workshop.id} />
             <EndDateForm initialData={workshop} workshopId={workshop.id} />
+            <RoomForm initialData={workshop} workshopId={workshop.id} />
+            <ImageURLForm initialData={workshop} workshopId={workshop.id} />
             <IsPublicForm initialData={workshop} workshopId={workshop.id} />
             {!workshop.isPublic ? (
               <MaxAttendersForm

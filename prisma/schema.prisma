@@ -52,7 +52,7 @@ model Workshop {
   attenders    User[]   @relation(name: "WorkshopAttenders")
   lecturers    User[]   @relation(name: "WorkshopLecturers")
   isPublic     Boolean  @default(true)
-  imageURL    String  @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVR4FA4F0YMpAq1W8QEg0-h56MB2_-yfUeDiFj_uzzlfoXhuK6PD3ad0O1psBoRRduYIo&usqp=CAU")
+  imageURL    String  @default("https://i.ibb.co/c1R3qwY/dummy-1800x600-000000-ffbd07-placeholder-image.png")
 }
 
 model Reward {
@@ -64,7 +64,7 @@ model Reward {
   updatedAt   DateTime @updatedAt
   isPublished Boolean  @default(false)
   winners     User[]   @relation(name: "RewardWinners")
-  imageURL    String  @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVR4FA4F0YMpAq1W8QEg0-h56MB2_-yfUeDiFj_uzzlfoXhuK6PD3ad0O1psBoRRduYIo&usqp=CAU")
+  imageURL    String  @default("https://i.ibb.co/c1R3qwY/dummy-1800x600-000000-ffbd07-placeholder-image.png")
 }
 
 model QrCode {

@@ -8,6 +8,7 @@ import { QuantityForm } from "../../_components/quantity-form";
 import { NameForm } from "../../_components/name-form";
 import { currentUser } from "@clerk/nextjs";
 import { Role } from "@prisma/client";
+import { ImageURLForm } from "../../_components/url-form";
 const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
   const user = await currentUser();
   const reward = await prisma.reward.findUnique({
@@ -61,6 +62,7 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
             <NameForm initialData={reward} rewardId={reward.id} />
             <DescriptionForm initialData={reward} rewardId={reward.id} />
             <QuantityForm initialData={reward} rewardId={reward.id} />
+            <ImageURLForm initialData={reward} rewardId={reward.id} />
           </>
         )}
       </div>
