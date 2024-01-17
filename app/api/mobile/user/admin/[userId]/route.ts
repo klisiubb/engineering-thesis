@@ -9,15 +9,7 @@ export async function GET( req: Request, { params }: { params: { userId: string 
 
   const { userId } = params
 
-    const publicKey = `
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZkhZ3JnWPgQK8P+n79h
-    jlEOuTstNjgz+NpaLUp/x+zc+IPfpX8Ubx0IGjyafMNhy0apGY3UIsB8mjpbWEN/
-    9zqXmPYnSMMkKpSfkF+aauDmOaU19G+aYcNJuxny8btFjJVgpHBpPbHQtWTz84GR
-    MoTfcP0zf22GtFqyM9PvSJv8AfnI6Bj1WTcdU34mjV8u4eZdwIPFGVa4AEE+9uWY
-    UT0icUlPpupybjNXozQe+4y78kLzNs6hjnEckriL1VKZOI/2/ieb66m7E8EUiwAK
-    dwi2gAAkZ5odr6IPcO3oa9ubVMxneKtg/t05Ok4Ar2Mwy9HqsPeYYAWz3xcz86pe
-    vwIDAQAB
-    `;
+    const publicKey = process.env.PUBLIC_KEY as string;
   
     const token =  req.headers.get("Authorization")?.split(" ")[1] as string;
   
@@ -28,7 +20,7 @@ export async function GET( req: Request, { params }: { params: { userId: string 
       let decoded = jwt.decode(token, { complete: true });  
     const decodedSub = decoded?.payload.sub as string;
 
-//Scanner
+//Scanner volunteer
 const user = await prisma.user.findUnique({
   where: {
     externalId: decodedSub
@@ -43,7 +35,7 @@ const user = await prisma.user.findUnique({
     return NextResponse.json({ message: "Unauthorized role" }, { headers: corsHeaders, status: 401 });
 }
 
-  // User provided to scan
+  // User to scan and check if he is present
     const userToScan = await prisma.user.findUnique({
         where: {
         externalId: userId
@@ -57,8 +49,20 @@ const user = await prisma.user.findUnique({
     if(userToScan.role !== Role.USER){
         return NextResponse.json({message: "User is not user role!"}, { headers: corsHeaders ,status: 404});
     }
-    if(userToScan.isPresentAtEvent === true){
-        return NextResponse.json({message: "User is already present at event!"}, { headers: corsHeaders ,status: 404});
+    if(userToScan.isPresentAtEvent === true && userToScan.isPresentAtWorkshop !== true){
+        await prisma.user.update({
+          where: {
+            externalId: userId
+          },
+          data: {
+              isPresentAtWorkshop: true,
+              }
+          }
+      ) 
+      return NextResponse.json({message: "User set as present at workshop!"}, { headers: corsHeaders, status:200 });
+        }
+    if(userToScan.isPresentAtEvent === true && userToScan.isPresentAtWorkshop === true){
+        return NextResponse.json({message: "User is already present at event and workshop!"}, { headers: corsHeaders, status:400 });
     }
     await prisma.user.update({
         where: {
