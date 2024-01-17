@@ -64,6 +64,10 @@ export async function GET(
       },
     },
   });
+
+  //Remove users who assigned for a limited workshop and didn't attend
+  usersEligible.filter((user) => user.workshopToAttendId !== null  && user.isPresentAtWorkshop === false);
+
   if (!usersEligible) {
     return NextResponse.json(
       { message: "No users eligible for winning reward" },
