@@ -30,7 +30,7 @@ import RegisterFor from "./register-for";
     }
     const currentAttenders = workshop.attenders.length;
     return (
-      <Card className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-4">
+      <Card className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-16">
         <div className="flex flex-col md:flex-col">
           <div className="flex-shrink-0">
             <img
@@ -46,11 +46,11 @@ import RegisterFor from "./register-for";
             />
           </div>
           <div className="p-8">
-            <div className="uppercase tracking-wide text-lg text-indigo-700 font-semibold">{workshop.topic}</div>
-            <p className="mt-2 text-gray-500 text-justify">
+            <div className="uppercase tracking-wide text-xl text-indigo-700 font-semibold">{workshop.topic}</div>
+            <p className="mt-2 text-gray-500 text-justify h-36">
               {workshop.description}
             </p>
-            <div className="mt-4">
+            <div className="mt-2 ">
             {currentAttenders === workshop.maxAttenders ? (
           <Button variant="destructive" disabled>
             Workshop is full

@@ -30,10 +30,10 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
     .object({
       startDate: z.coerce.date(),
     })
-    .refine((data) => {
+    {/*}.refine((data) => {
       return data.startDate < initialData.endDate;
     }, "Start date must be before end date");
-
+    */}
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((prev) => !prev);
   const router = useRouter();

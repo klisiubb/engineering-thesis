@@ -17,20 +17,46 @@ const WorkshopsComponent = async () => {
     },
   });
   return (
-    <div className="text-center mt-2">
-      <h1 className="text-4xl  mb-4 uppercase tracking-wide  text-neutral-800 font-semibold">Lectures:</h1>
+    <>
+    <section className="w-full py-6 md:py-12 lg:py-16 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="space-y-2">
+          <h1 className="text-3xl  font-semibold uppercase tracking-wide text-white sm:text-4xl md:text-5xl lg:text-6xl">
+              Our Lectures:
+            </h1>
+            <p className="mx-auto max-w-[700px] text-white md:text-xl dark:text-gray-400">
+            Don`t miss the opportunity to be part of these dynamic experiences that elevate minds and forge connections beyond the ordinary.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
           {publicWorkshops.map((workshop) => (
             <NewWorkshopCard key={workshop.id} id={workshop.id} />
           ))}
         </div>
-        <h1 className="text-4xl  mb-4 uppercase tracking-wide  text-neutral-800 font-semibold">Workshops:</h1>
+        <section className="w-full py-6 md:py-12 lg:py-16 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="space-y-2">
+            <h1 className="text-3xl  font-semibold uppercase tracking-wide text-white sm:text-4xl md:text-5xl lg:text-6xl">
+              Our Workshops:
+            </h1>
+            <p className="mx-auto max-w-[700px] text-white md:text-xl dark:text-gray-400">
+            Don`t miss the opportunity to be part of these dynamic experiences that elevate minds and forge connections beyond the ordinary.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto">
           {privateWorkshops.map((workshop) => (
             <NewPrivateWorkshopComponent key={workshop.id} id={workshop.id} />
           ))}
-        </div>
-    </div>
+          </div>
+          </>
   );
 };
 

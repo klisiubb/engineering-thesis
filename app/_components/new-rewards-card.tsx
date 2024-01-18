@@ -15,7 +15,7 @@ import { prisma } from "@/lib/db";
         return <div>Reward not found</div>;
       }
     return (
-      <Card className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-4">
+      <Card className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-16">
         <div className="flex flex-col md:flex-col">
           <div className="flex-shrink-0">
             <img
@@ -31,7 +31,7 @@ import { prisma } from "@/lib/db";
             />
           </div>
           <div className="p-8">
-            <div className="uppercase tracking-wide text-lg text-indigo-700 font-semibold">{reward.quantity}x | {reward.name}</div>
+            <div className="uppercase tracking-wide text-xl text-indigo-700 font-semibold">{reward.quantity}x | {reward.name}</div>
             <p className="mt-2 text-gray-500 text-justify">
               {reward.description}
             </p>
