@@ -8,10 +8,10 @@ export const NavbarRoutes = () => {
     <>
       <div className="flex gap-x-2 ml-auto">
         <Button asChild size="sm" variant="ghost">
-          <Link href="/">Close admin panel</Link>
+          <Link href="/">Zamknij panel</Link>
         </Button>
         <Button asChild size="sm" variant="ghost">
-          <SignOutButton />
+          <SignOutButton>Wyloguj się</SignOutButton>
         </Button>
       </div>
     </>

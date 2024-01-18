@@ -7,22 +7,22 @@ import { SidebarItem } from "./sidebar-item";
 const adminRoutes = [
   {
     icon: CalendarDays,
-    label: "Workshops",
+    label: "Wydarzenia",
     href: "/admin/workshop",
   },
   {
     icon: QrCode,
-    label: "QR Codes",
+    label: "Kody QR",
     href: "/admin/qr",
   },
   {
     icon: Trophy,
-    label: "Rewards",
+    label: "Nagrody",
     href: "/admin/reward",
   },
   {
     icon: Users,
-    label: "Users",
+    label: "Użytkownicy",
     href: "/admin/user",
   },
 ];

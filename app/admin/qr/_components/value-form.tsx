@@ -26,8 +26,8 @@ interface valueProps {
 }
 
 const formSchema = z.object({
-  value: z.coerce.number().int({ message: "value must be a number" }).gte(0, {
-    message: "value must be a positive number",
+  value: z.coerce.number().int({ message: "Wartość musi być liczbą" }).gte(0, {
+    message: "Wartość musi być większa od zera",
   }),
 });
 
@@ -50,24 +50,24 @@ export const ValueForm = ({ initialData, qrcodeId }: valueProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/qr/edit/${qrcodeId}`, values);
-      toast.success("QR Code value updated");
+      toast.success("Wartość kodu QR została zaktualizowana");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Value:
+        Wartość:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit value
+              Edytuj
             </>
           )}
         </Button>
@@ -79,7 +79,7 @@ export const ValueForm = ({ initialData, qrcodeId }: valueProps) => {
             !initialData.value && "text-slate-500 italic"
           )}
         >
-          {initialData.value || "Value not set"}
+          {initialData.value || "Nie ustawiono"}
         </p>
       )}
       {isEditing && (
@@ -96,7 +96,7 @@ export const ValueForm = ({ initialData, qrcodeId }: valueProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `15`"
+                      placeholder="np. `15`"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -106,7 +106,7 @@ export const ValueForm = ({ initialData, qrcodeId }: valueProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

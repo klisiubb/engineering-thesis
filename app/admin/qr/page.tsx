@@ -17,10 +17,10 @@ const Page = async () => {
   return (
     <div className="p-6">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-medium">QR Codes:</h1>
+        <h1 className="text-2xl font-medium">Kody QR:</h1>
         <div className="mb-4">
           <Button asChild size="sm" variant="default">
-            <Link href="/admin/qr/create">Create new QR Code</Link>
+            <Link href="/admin/qr/create">Utwórz nowy kod QR</Link>
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4">

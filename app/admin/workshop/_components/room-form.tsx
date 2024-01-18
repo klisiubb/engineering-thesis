@@ -26,7 +26,7 @@ interface roomFormProps {
 }
 
 const formSchema = z.object({
-  room: z.string().nonempty({ message: "Room is required" }),
+  room: z.string().nonempty({ message: "Sala jest wymagana" }),
 });
 
 export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
@@ -48,24 +48,24 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/workshop/edit/${workshopId}`, values);
-      toast.success("Workshop room updated");
+      toast.success("Sala wydarzenia została zaktualizowana");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak...");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Room:
+        Sala:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit room
+              Zmień salę
             </>
           )}
         </Button>
@@ -77,7 +77,7 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
             !initialData.room && "text-slate-500 italic"
           )}
         >
-          {initialData.room || "No room..."}
+          {initialData.room || "Nie ustawiono sali"}
         </p>
       )}
       {isEditing && (
@@ -94,7 +94,7 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `A304`"
+                      placeholder="np. `A304`"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -104,7 +104,7 @@ export const RoomForm = ({ initialData, workshopId }: roomFormProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

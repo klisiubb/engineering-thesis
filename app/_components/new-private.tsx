@@ -26,7 +26,7 @@ import RegisterFor from "./register-for";
       },
     });
     if (!workshop) {
-      return <div>Workshop not found</div>;
+      return <div>Nie znaleziono warsztatu...</div>;
     }
     const currentAttenders = workshop.attenders.length;
     return (
@@ -53,19 +53,19 @@ import RegisterFor from "./register-for";
             <div className="mt-2 ">
             {currentAttenders === workshop.maxAttenders ? (
           <Button variant="destructive" disabled>
-            Workshop is full
+            Warsztat jest pełen
           </Button>
         ) : (
           <div>
             {loggedUser === undefined || loggedUser === null ? (
               <Button variant="outline" disabled asChild>
-                <Link href="/sign-in">Sign in to register</Link>
+                <Link href="/sign-in">Zaloguj się by się zapisać</Link>
               </Button>
             ) : isSignedForWorkshop || loggedUser.role !== Role.USER ? (
               <Button variant="destructive" disabled>
                 {loggedUser.role !== Role.USER
-                  ? "Only users can register"
-                  : "You are already signed!"}
+                  ? "Tylko użytkownicy mogą się zapisać"
+                  : "Zapisany na warsztat"}
               </Button>
             ) : (
               <RegisterFor workshopId={workshop.id} userId={userId as string} />

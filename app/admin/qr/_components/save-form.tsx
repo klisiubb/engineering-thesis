@@ -19,10 +19,10 @@ const SaveForm = ({ initialData, qrcodeId }: PublishProps) => {
       await axios.patch(`/api/admin/qr/edit/${qrcodeId}`, {
         isPublished: !initialData.isPublished,
       });
-      toast.success("QR Codestatus updated");
+      toast.success("Zmieniono status kodu QR");
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
@@ -30,7 +30,7 @@ const SaveForm = ({ initialData, qrcodeId }: PublishProps) => {
       onClick={onClick}
       variant={initialData.isPublished ? "destructive" : "default"}
     >
-      {initialData.isPublished ? "Unpublish to edit" : "Publish"}
+      {initialData.isPublished ? "Wyłącz, by edytować" : "Publikuj"}
     </Button>
   );
 };

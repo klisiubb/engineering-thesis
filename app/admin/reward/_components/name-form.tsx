@@ -25,7 +25,7 @@ interface nameFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().nonempty({ message: "Name is required" }),
+  name: z.string().nonempty({ message: "Nazwa jest wymagana" }),
 });
 
 export const NameForm = ({ initialData, rewardId }: nameFormProps) => {
@@ -45,24 +45,24 @@ export const NameForm = ({ initialData, rewardId }: nameFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/reward/edit/${rewardId}`, values);
-      toast.success("Reward name updated");
+      toast.success("Nazwa nagrody została zaktualizowana");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Name:
+        Nazwa:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit name
+              Edytuj nazwę
             </>
           )}
         </Button>
@@ -82,7 +82,7 @@ export const NameForm = ({ initialData, rewardId }: nameFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `PS5.`"
+                      placeholder="np. `PS5.`"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -92,7 +92,7 @@ export const NameForm = ({ initialData, rewardId }: nameFormProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

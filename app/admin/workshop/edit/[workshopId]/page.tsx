@@ -53,15 +53,15 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <Button asChild variant="outline">
-            <Link href="/admin/workshop/">Go back!</Link>
+            <Link href="/admin/workshop/">Wróć!</Link>
           </Button>
-          <h1 className="text-2xl font-medium">Workshop setup:</h1>
+          <h1 className="text-2xl font-medium">Ustawienia:</h1>
           <span className="text-sm text-slate-700">
             {totalFields !== completedFields ? (
-              `Please complete all fields ${completionText}!`
+              `Uzupełnij wszystkie pola ${completionText}!`
             ) : (
               <>
-                Everything is set up <span className="text-green-900"> ✓ </span>
+                Wszystko jest ustawione <span className="text-green-900"> ✓ </span>
               </>
             )}
           </span>
@@ -80,7 +80,7 @@ const CourseIdPage = async ({ params }: { params: { workshopId: string } }) => {
             <StartDateForm initialData={workshop} workshopId={workshop.id} />
             <EndDateForm initialData={workshop} workshopId={workshop.id} />
             <RoomForm initialData={workshop} workshopId={workshop.id} />
-            <ImageURLForm initialData={workshop} workshopId={workshop.id} />
+            {/*<ImageURLForm initialData={workshop} workshopId={workshop.id} /> */}
             <IsPublicForm initialData={workshop} workshopId={workshop.id} />
             {!workshop.isPublic ? (
               <MaxAttendersForm

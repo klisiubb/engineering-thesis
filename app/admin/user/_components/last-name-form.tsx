@@ -23,7 +23,7 @@ interface nameFormProps {
 }
 
 const formSchema = z.object({
-  lastName: z.string().nonempty({ message: "Last name is required" }),
+  lastName: z.string().nonempty({ message: "Nazwisko jest wymagane" }),
 });
 
 export const LastNameForm = ({ lastName, userId }: nameFormProps) => {
@@ -43,24 +43,24 @@ export const LastNameForm = ({ lastName, userId }: nameFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/user/edit/${userId}`, values);
-      toast.success("User Last name updated");
+      toast.success("Nazwisko zostało zaktualizowane");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        last Name:
+        Nazwisko:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit last name
+              Edytuj nazwisko
             </>
           )}
         </Button>
@@ -80,7 +80,7 @@ export const LastNameForm = ({ lastName, userId }: nameFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `PS5.`"
+                      placeholder="np. Kowalski`"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -90,7 +90,7 @@ export const LastNameForm = ({ lastName, userId }: nameFormProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

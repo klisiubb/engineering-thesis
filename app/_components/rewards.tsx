@@ -18,10 +18,11 @@ const RewardsComponent = async () => {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
             <h1 className="text-3xl  font-semibold uppercase tracking-wide text-white sm:text-4xl md:text-5xl lg:text-6xl">
-              Our Rewards:
+              Nagrody do wygrania:
             </h1>
             <p className="mx-auto max-w-[700px] text-white md:text-xl dark:text-gray-400">
-           Check out our rewards and see you on the event to win one of them!
+              Zgarnij nagrody, które przygotowaliśmy dla uczestników naszych
+              warsztatów!
             </p>
           </div>
         </div>

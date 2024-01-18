@@ -23,14 +23,13 @@ const RewardCard = (reward: Reward) => {
         `/api/admin/reward/delete/${reward.id}`
       );
       if (response.status === 200) {
-        toast.success("Reward deleted successfully");
+        toast.success("Pomyślnie usunięto nagrodę");
         router.refresh();
       } else {
-        toast.error("Failed to delete reward");
+        toast.error("Wystąpił błąd podczas usuwania nagrody");
       }
     } catch (error) {
-      console.error("Error deleting reward:", error);
-      toast.error("An error occurred while deleting reward");
+      toast.error("Wystąpił błąd podczas usuwania nagrody");
     }
   };
 
@@ -44,21 +43,21 @@ const RewardCard = (reward: Reward) => {
         </CardHeader>
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
-            <p className="text-gray-700">Quantity: {reward.quantity}</p>
+            <p className="text-gray-700"> Ilość: {reward.quantity}</p>
             {reward.isPublished ? (
-              <p className="text-green-700 font-semibold">Published</p>
+              <p className="text-green-700 font-semibold">Opublikowana</p>
             ) : (
-              <p className="text-red-700 font-semibold">Unpublished</p>
+              <p className="text-red-700 font-semibold">Widoczna tylko dla administratorów</p>
             )}
           </div>
         </CardContent>
         <hr className="mb-2" />
         <CardFooter className="flex justify-between">
           <Button asChild variant="secondary">
-            <Link href={`/admin/reward/edit/${reward.id}`}>Edit</Link>
+            <Link href={`/admin/reward/edit/${reward.id}`}>Edytuj</Link>
           </Button>
           <Button onClick={onClick} variant="destructive">
-            Delete
+            Usuń
           </Button>
         </CardFooter>
       </Card>

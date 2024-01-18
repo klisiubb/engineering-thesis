@@ -23,10 +23,10 @@ const WorkshopsComponent = async () => {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
           <h1 className="text-3xl  font-semibold uppercase tracking-wide text-white sm:text-4xl md:text-5xl lg:text-6xl">
-              Our Lectures:
+              Nasze wykłady:
             </h1>
             <p className="mx-auto max-w-[700px] text-white md:text-xl dark:text-gray-400">
-            Don`t miss the opportunity to be part of these dynamic experiences that elevate minds and forge connections beyond the ordinary.
+            Nie przegap okazji, aby wziąć udział w tych wykładach, które na pewno rozwiną Twoje umiejętności!
             </p>
           </div>
         </div>
@@ -42,10 +42,10 @@ const WorkshopsComponent = async () => {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
             <h1 className="text-3xl  font-semibold uppercase tracking-wide text-white sm:text-4xl md:text-5xl lg:text-6xl">
-              Our Workshops:
+              Nasze warsztaty:
             </h1>
             <p className="mx-auto max-w-[700px] text-white md:text-xl dark:text-gray-400">
-            Don`t miss the opportunity to be part of these dynamic experiences that elevate minds and forge connections beyond the ordinary.
+            Nie przegap okazji, aby wziąć udział w tych warsztatach, które na pewno rozwiną Twoje umiejętności!
             </p>
           </div>
         </div>

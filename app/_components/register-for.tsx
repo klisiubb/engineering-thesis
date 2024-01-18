@@ -16,16 +16,16 @@ const RegisterFor: React.FC<RegisterForProps> = ({ workshopId, userId }) => {
     try {
       const response = await axios.post("/api/", { workshopId, userId });
       router.refresh();
-      toast.success("Signed up for workshop!");
+      toast.success("Zarejestrowano na warsztat!");
     } catch (error) {
       console.error(error);
       toast.error(
-        "You are already signed up for workshop or your role is not the user!"
+        "Wystąpił błąd podczas rejestracji na warsztat. Spróbuj ponownie później."
       );
     }
   };
 
-  return <Button onClick={onClick}>Sign up for workshop!</Button>;
+  return <Button onClick={onClick}>Zarejestruj się na warsztat</Button>;
 };
 
 export default RegisterFor;

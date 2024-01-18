@@ -19,10 +19,10 @@ const SaveForm = ({ initialData, rewardId }: PublishProps) => {
       await axios.patch(`/api/admin/reward/edit/${rewardId}`, {
         isPublished: !initialData.isPublished,
       });
-      toast.success("Reward status updated");
+      toast.success("Zaaaktualizowano status nagrody");
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
@@ -30,7 +30,7 @@ const SaveForm = ({ initialData, rewardId }: PublishProps) => {
       onClick={onClick}
       variant={initialData.isPublished ? "destructive" : "default"}
     >
-      {initialData.isPublished ? "Unpublish to edit" : "Publish"}
+      {initialData.isPublished ? "Wyłącz, by edytować" : "Publikuj"}
     </Button>
   );
 };

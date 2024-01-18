@@ -51,29 +51,48 @@ export const RoleForm = ({ role, userId }: roleFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/user/edit/${userId}`, values);
-      toast.success("User role updated");
+      toast.success("Rola użytkownika została zaktualizowana");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
+  let roleName: string;
+
+switch (role) {
+  case "USER":
+    roleName = "Użytkownik";
+    break;
+  case "ADMIN":
+    roleName = "Administrator";
+    break;
+  case "LECTURER":
+    roleName = "Prowadzący";
+    break;
+  case "VOLUNTEER":
+    roleName = "Wolontariusz";
+    break;
+  default:
+    roleName = "Użytkownik";
+    break;
+}
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        User role:
+        Rola:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Change role
+              Zmień rolę
             </>
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{role}</p>}
+      {!isEditing && <p className="text-sm mt-2">{roleName}</p>}
       {isEditing && (
         <Form {...form}>
           <form
@@ -92,14 +111,14 @@ export const RoleForm = ({ role, userId }: roleFormProps) => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
+                          <SelectValue placeholder="Wybierz rolę..." />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="ADMIN">ADMIN</SelectItem>
-                        <SelectItem value="USER">USER</SelectItem>
-                        <SelectItem value="VOLUNTEER">VOLUNTEER</SelectItem>
-                        <SelectItem value="LECTURER">LECTURER</SelectItem>
+                        <SelectItem value="ADMIN">Administrator</SelectItem>
+                        <SelectItem value="USER">Użytkownik</SelectItem>
+                        <SelectItem value="VOLUNTEER">Wolontariusz</SelectItem>
+                        <SelectItem value="LECTURER">Prowadzący</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -109,7 +128,7 @@ export const RoleForm = ({ role, userId }: roleFormProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

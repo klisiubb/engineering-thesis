@@ -43,15 +43,15 @@ const CreatePage = () => {
     try {
       const response = await axios.post("/api/admin/workshop/create", values);
       router.push(`/admin/workshop/edit/${response.data.id}`);
-      toast.success("Workshop created");
+      toast.success("Utworzono warsztat");
     } catch (error) {
       console.error(error);
-      toast.error("Workshop with this topic already exists!");
+      toast.error("Taki warsztat już istnieje.");
     }
   };
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Ładowanie...</div>;
   }
 
   if (!isSignedIn || user.publicMetadata.role !== Role.ADMIN) {
@@ -63,8 +63,7 @@ const CreatePage = () => {
       <div className="max-w-5xl w-full mx-auto p-6">
         <h1 className="text-2xl">Name your workshop</h1>
         <p className="text-sm text-slate-600">
-          What would you like to name this workshop? Don&apos;t worry, you can
-          change this later.
+         Jak chciałbyś nazwać to wydarzenie? Możesz zmienić tę nazwę później.
         </p>
         <Form {...form}>
           <form
@@ -80,12 +79,12 @@ const CreatePage = () => {
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'An introduction to React'"
+                      placeholder="np. 'Wstęp do React'"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    What will you teach in this workshop?
+                    Czego się tam nauczą?
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -94,11 +93,11 @@ const CreatePage = () => {
             <div className="grid grid-cols-2 gap-2 items-center justify-center">
               <Link href="/admin/workshop/">
                 <Button type="button" variant="ghost">
-                  Cancel
+                  Anuluj
                 </Button>
               </Link>
               <Button type="submit" disabled={!isValid || isSubmitting}>
-                Continue
+                Dalej
               </Button>
             </div>
           </form>

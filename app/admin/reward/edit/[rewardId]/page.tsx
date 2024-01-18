@@ -37,15 +37,15 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <Button asChild variant="outline">
-            <Link href="/admin/reward/">Go back!</Link>
+            <Link href="/admin/reward/">Wróć!</Link>
           </Button>
-          <h1 className="text-2xl font-medium">Reward setup:</h1>
+          <h1 className="text-2xl font-medium">Ustawienia nagrody:</h1>
           <span className="text-sm text-slate-700">
             {totalFields !== completedFields ? (
-              `Please complete all fields ${completionText}!`
+              `Wypełnij wszystkie pola ${completionText}!`
             ) : (
               <>
-                Everything is set up <span className="text-green-900"> ✓ </span>
+                Wszystko jest ustawione <span className="text-green-900"> ✓ </span>
               </>
             )}
           </span>
@@ -62,7 +62,7 @@ const RewardEditPage = async ({ params }: { params: { rewardId: string } }) => {
             <NameForm initialData={reward} rewardId={reward.id} />
             <DescriptionForm initialData={reward} rewardId={reward.id} />
             <QuantityForm initialData={reward} rewardId={reward.id} />
-            <ImageURLForm initialData={reward} rewardId={reward.id} />
+            {/*(<ImageURLForm initialData={reward} rewardId={reward.id} /> */}
           </>
         )}
       </div>

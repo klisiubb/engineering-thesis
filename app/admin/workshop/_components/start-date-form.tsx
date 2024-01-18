@@ -50,25 +50,25 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/workshop/edit/${workshopId}`, values);
-      toast.success("Workshop start date updated");
+      toast.success("Data rozpoczęcia została zaktualizowana");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Wystąpił błąd podczas aktualizacji daty rozpoczęcia");
     }
   };
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Start Date:
+        Data rozpoczęcia:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit start date
+              Edytuj datę rozpoczęcia
             </>
           )}
         </Button>
@@ -89,7 +89,7 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
                 hour: "2-digit",
                 minute: "2-digit",
               })
-            : "No start date..."}
+            : "Nie ustawiono daty rozpoczęcia"}
         </p>
       )}
       {isEditing && (
@@ -118,7 +118,7 @@ const StartDateForm = ({ initialData, workshopId }: StartDateFormProps) => {
 
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

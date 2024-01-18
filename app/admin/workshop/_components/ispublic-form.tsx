@@ -52,24 +52,24 @@ export const IsPublicForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/workshop/edit/${workshopId}`, values);
-      toast.success("Workshop publicity updated");
+      toast.success("Zmieniono typ wydarzenia");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak...");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Publicity:
+        Typ wydarzenia:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Change publicity
+              Zmień typ
             </>
           )}
         </Button>
@@ -81,7 +81,7 @@ export const IsPublicForm = ({
             !initialData.isPublic && "text-slate-500 italic"
           )}
         >
-          {initialData.isPublic ? "Public" : "Private"}
+          {initialData.isPublic ? "Wykład" : "Warsztat"}
         </p>
       )}
       {isEditing && (
@@ -95,7 +95,7 @@ export const IsPublicForm = ({
               name="isPublic"
               render={({ field }) => (
                 <FormItem>
-                  <FormDescription>Change publicity</FormDescription>
+                  <FormDescription>Zmień</FormDescription>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -108,7 +108,7 @@ export const IsPublicForm = ({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

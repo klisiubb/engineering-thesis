@@ -21,14 +21,13 @@ const QRCodeCard = (qrcode: QrCode) => {
     try {
       const response = await axios.delete(`/api/admin/qr/delete/${qrcode.id}`);
       if (response.status === 200) {
-        toast.success("QR Code deleted successfully");
+        toast.success("Pomyślnie usunięto kod QR");
         router.refresh();
       } else {
-        toast.error("Failed to delete QR code");
+        toast.error("Wystąpił błąd podczas usuwania kodu QR");
       }
     } catch (error) {
-      console.error("Error deleting qr code:", error);
-      toast.error("An error occurred while deleting QR Code");
+      toast.error("Wystąpił błąd podczas usuwania kodu QR");
     }
   };
 
@@ -42,28 +41,28 @@ const QRCodeCard = (qrcode: QrCode) => {
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
             <p className="text-gray-700">
-              Value: {qrcode.value === null ? "Not set" : qrcode.value}
+              Wartość: {qrcode.value === null ? "Nie ustawionio" : qrcode.value}
             </p>
             <p className="text-gray-700">
-              Max uses:{" "}
+              Maksymalna liczba użyć:{" "}
               <span>
-                {qrcode.maxUses === 0 ? "Not applicable" : qrcode.maxUses}
+                {qrcode.maxUses === 0 ? "Nie dotyczy" : qrcode.maxUses}
               </span>
             </p>
             <p className="text-gray-700">
               Status:{" "}
               {qrcode.isPublished ? (
-                <span className="text-green-700 font-semibold">Published</span>
+                <span className="text-green-700 font-semibold">Opublikowany</span>
               ) : (
-                <span className="text-red-700 font-semibold">Unpublished</span>
+                <span className="text-red-700 font-semibold">Widoczny tylko dla administratorów</span>
               )}
             </p>
             <p className="text-gray-700">
-              Type:{" "}
+              Typ:{" "}
               {qrcode.workshopId === null ? (
-                <span>General</span>
+                <span>Ogólny</span>
               ) : (
-                <span>Workshop only</span>
+                <span>Wydarzenie</span>
               )}
             </p>
             {qrcode.isPublished ? (
@@ -73,20 +72,20 @@ const QRCodeCard = (qrcode: QrCode) => {
                   triggerBase64Download(qrcode.base64, qrcode.name)
                 }
               >
-                Download QR Code
+               Pobierz kod QR
               </Button>
             ) : (
-              <Button variant="secondary">Publish to download QR Code</Button>
+              <Button variant="secondary">Opublikuj kod, by pobrać</Button>
             )}
           </div>
         </CardContent>
         <hr className="mb-2" />
         <CardFooter className="flex justify-between">
           <Button asChild variant="secondary">
-            <Link href={`/admin/qr/edit/${qrcode.id}`}>Edit</Link>
+            <Link href={`/admin/qr/edit/${qrcode.id}`}>Edytuj</Link>
           </Button>
           <Button onClick={onClick} variant="destructive">
-            Delete
+            Usuń
           </Button>
         </CardFooter>
       </Card>

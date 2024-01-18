@@ -25,7 +25,7 @@ interface urlFormProps {
 }
 
 const formSchema = z.object({
-  imageURL: z.string().nonempty({ message: "Image URL is required" }),
+  imageURL: z.string().nonempty({ message: "Link jest wymagany" }),
 });
 
 export const ImageURLForm = ({ initialData, rewardId }: urlFormProps) => {
@@ -45,24 +45,24 @@ export const ImageURLForm = ({ initialData, rewardId }: urlFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/reward/edit/${rewardId}`, values);
-      toast.success("Reward image url updated");
+      toast.success("Pomyślnie zaktualizowano link do zdjęcia");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Image URL:
+        Link do zdjęcia:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit image url
+              Edytuj link do zdjęcia
             </>
           )}
         </Button>
@@ -82,7 +82,7 @@ export const ImageURLForm = ({ initialData, rewardId }: urlFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `PS5.`"
+                      placeholder="Link do zdjęcia.."
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -92,7 +92,7 @@ export const ImageURLForm = ({ initialData, rewardId }: urlFormProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

@@ -23,10 +23,10 @@ const WorkshopPage = async () => {
   return (
     <div className="p-6">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-medium">Workshops:</h1>
+        <h1 className="text-2xl font-medium">Wydarzenia:</h1>
         <div className="mb-4">
           <Button asChild size="sm" variant="default">
-            <Link href="/admin/workshop/create">Create new workshop</Link>
+            <Link href="/admin/workshop/create">Utwórz nowe wydarzenie</Link>
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4">

@@ -47,24 +47,24 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/admin/qr/edit/${qrcodeId}`, values);
-      toast.success("QR Code max uses updated");
+      toast.success("Poprawnie zaktualizowano maksymalną liczbę użyć kodu QR");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później.");
     }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className=" font-medium flex items-center justify-between">
-        Maximum uses:
+        Limit użyć:
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Anuluj</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit value
+              Edytuj
             </>
           )}
         </Button>
@@ -76,7 +76,7 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
             !initialData.maxUses && "text-slate-500 italic"
           )}
         >
-          {initialData.maxUses || "Max uses not set"}
+          {initialData.maxUses || "Nie ustawiono"}
         </p>
       )}
       {isEditing && (
@@ -93,7 +93,7 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g `15`"
+                      placeholder="np. `15`"
                       disabled={isSubmitting}
                       type="number"
                     />
@@ -104,7 +104,7 @@ export const MaxUsesForm = ({ initialData, qrcodeId }: maxUsesProps) => {
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                Save
+                Zapisz
               </Button>
             </div>
           </form>

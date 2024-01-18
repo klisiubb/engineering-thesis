@@ -31,15 +31,16 @@ const UserEditPage = async ({ params }: { params: { userId: string } }) => {
       isPublished: true,
     },
   });
+  const workshopsPrivate = workshops.filter((workshop) => workshop.isPublic === false);
 
   return (
     <div className="p-6">
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <Button asChild variant="outline">
-            <Link href="/admin/user/">Go back!</Link>
+            <Link href="/admin/user/">Wróć!</Link>
           </Button>
-          <h1 className="text-2xl font-medium">Edit user:</h1>
+          <h1 className="text-2xl font-medium">Edytuj użytkownika:</h1>
         </div>
       </div>
       <div
@@ -74,7 +75,7 @@ const UserEditPage = async ({ params }: { params: { userId: string } }) => {
               userToEdit.workshopToAttendId ? userToEdit.workshopToAttendId : ""
             }
             userId={userToEdit.Id}
-            workshops={workshops}
+            workshops={workshopsPrivate}
           />
         )}
       </div>

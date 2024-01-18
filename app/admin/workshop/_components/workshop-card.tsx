@@ -29,14 +29,13 @@ const WorkshopCard = ({
         `/api/admin/workshop/delete/${workshop.id}`
       );
       if (response.status === 200) {
-        toast.success("Workshop deleted successfully");
+        toast.success("Pomyślnie usunięto warsztat");
         router.refresh();
       } else {
-        toast.error("Failed to delete workshop");
+        toast.error("Wystąpił błąd podczas usuwania warsztatu");
       }
     } catch (error) {
-      console.error("Error deleting workshop:", error);
-      toast.error("An error occurred while deleting workshop");
+      toast.error("Wystąpił błąd podczas usuwania warsztatu");
     }
   };
   return (
@@ -50,40 +49,39 @@ const WorkshopCard = ({
         <CardContent className="p-4">
           <div className="flex flex-col gap-2">
             <p className="text-gray-700" suppressHydrationWarning>
-              Start date: {new Date(workshop.startDate).toLocaleString()}
+              Początek wydarzenia: {new Date(workshop.startDate).toLocaleString()}
             </p>
             <p className="text-gray-700" suppressHydrationWarning>
-              End date: {new Date(workshop.endDate).toLocaleString()}
+              Koniec wydarzenia: {new Date(workshop.endDate).toLocaleString()}
             </p>
             <p className="text-gray-700">
               Room: {workshop.room ? workshop.room : "Not set"}
             </p>
             <p className="text-gray-700">
-              Publicity:{" "}
+              Typ:{" "}
               <span>
                 {workshop.isPublic
-                  ? "Public"
-                  : "Private " + attenders + "/" + workshop.maxAttenders}
+                  ? "Wykład"
+                  : "Warsztat " + attenders + "/" + workshop.maxAttenders}
               </span>
             </p>
             {workshop.isPublished ? (
-              <p className="text-green-700 font-semibold">Published</p>
+              <p className="text-green-700 font-semibold">Opublikowany</p>
             ) : (
-              <p className="text-red-700 font-semibold">Unpublished</p>
+              <p className="text-red-700 font-semibold">Widoczny tylko dla administratorów</p>
             )}
             <p className=" text-sm italic text-gray-600">
-              Dont forget to set lecturer(s) and generate QR Code for this
-              workshop!
+             Nie zapomnij uzupełnić prowadzących i dodać kod QR!
             </p>
           </div>
         </CardContent>
         <hr className="mb-2" />
         <CardFooter className="flex justify-between">
           <Button asChild variant="secondary">
-            <Link href={`/admin/workshop/edit/${workshop.id}`}>Edit</Link>
+            <Link href={`/admin/workshop/edit/${workshop.id}`}>Edytuj</Link>
           </Button>
           <Button onClick={onClick} variant="destructive">
-            Delete
+            Usuń
           </Button>
         </CardFooter>
       </Card>

@@ -46,15 +46,15 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
       <div className=" flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <Button asChild variant="outline">
-            <Link href="/admin/qr/">Go back!</Link>
+            <Link href="/admin/qr/">Wróć!</Link>
           </Button>
-          <h1 className="text-2xl font-medium">QR Code setup:</h1>
+          <h1 className="text-2xl font-medium">Ustawienia kodu QR:</h1>
           <span className="text-sm text-slate-700">
             {totalFields !== completedFields ? (
-              `Please complete all fields ${completionText}!`
+              `Wypełnij wymagane pola ${completionText}!`
             ) : (
               <>
-                Everything is set up <span className="text-green-900"> ✓ </span>
+                Wszystko ustawione<span className="text-green-900"> ✓ </span>
               </>
             )}
           </span>

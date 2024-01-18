@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Name is required",
+    message: "Nazwa jest wymagana",
   }),
 });
 
@@ -43,15 +43,15 @@ const CreatePage = () => {
     try {
       const response = await axios.post("/api/admin/qr/create", values);
       router.push(`/admin/qr/edit/${response.data.id}`);
-      toast.success("QR Code created");
+      toast.success("Utworzono kod QR");
     } catch (error) {
       console.error(error);
-      toast.error("QR Code with this name already exists!");
+      toast.error("Taki kod QR już istnieje.");
     }
   };
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Ładowanie...</div>;
   }
 
   if (!isSignedIn || user.publicMetadata.role !== Role.ADMIN) {
@@ -61,10 +61,9 @@ const CreatePage = () => {
   return (
     <div className="h-full grid place-items-center">
       <div className="max-w-5xl w-full mx-auto p-6">
-        <h1 className="text-2xl">QR Code</h1>
+        <h1 className="text-2xl">Kod QR</h1>
         <p className="text-sm text-slate-600">
-          What is the name of the QR Code? Don&apos;t worry, you can change this
-          later.
+          Jak nazwiesz ten kod QR? Nazwę będziesz mógł zmienić później.
         </p>
         <Form {...form}>
           <form
@@ -76,16 +75,16 @@ const CreatePage = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>QR Code name:</FormLabel>
+                  <FormLabel>Nazwa kodu:</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'React workshop QR Code'"
+                      placeholder="np.. 'Kod QR dla warsztatu React'"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    How will you name your QR Code?
+                    Jak nazwiesz swój kod QR?
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -94,11 +93,11 @@ const CreatePage = () => {
             <div className="grid grid-cols-2 gap-2 items-center justify-center">
               <Link href="/admin/qr/">
                 <Button type="button" variant="ghost">
-                  Cancel
+                  Anuluj
                 </Button>
               </Link>
               <Button type="submit" disabled={!isValid || isSubmitting}>
-                Continue
+                Dalej
               </Button>
             </div>
           </form>

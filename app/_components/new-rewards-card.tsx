@@ -12,7 +12,7 @@ import { prisma } from "@/lib/db";
         },
       });
       if (!reward) {
-        return <div>Reward not found</div>;
+        return <div>Nie znaleziono nagrody...</div>;
       }
     return (
       <Card className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-16">

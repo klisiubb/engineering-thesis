@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Name is required",
+    message: "Nazwa jest wymagana",
   }),
 });
 
@@ -43,15 +43,15 @@ const CreatePage = () => {
     try {
       const response = await axios.post("/api/admin/reward/create", values);
       router.push(`/admin/reward/edit/${response.data.id}`);
-      toast.success("Reward created");
+      toast.success("Nagroda została utworzona");
     } catch (error) {
       console.error(error);
-      toast.error("Reward with this name already exists!");
+      toast.error("Nagroda o takiej nazwie już istnieje!");
     }
   };
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Ładowanie...</div>;
   }
 
   if (!isSignedIn || user.publicMetadata.role !== Role.ADMIN) {
@@ -63,8 +63,7 @@ const CreatePage = () => {
       <div className="max-w-5xl w-full mx-auto p-6">
         <h1 className="text-2xl">Reward name</h1>
         <p className="text-sm text-slate-600">
-          What is the name of the reward? Don&apos;t worry, you can change this
-          later.
+          Jak chcesz nazwać nagrodę? Możesz później zmienić nazwę
         </p>
         <Form {...form}>
           <form
@@ -76,15 +75,15 @@ const CreatePage = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Reward name:</FormLabel>
+                  <FormLabel>Nazwa nagrody:</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'PS5 + Cyberpunk 2077'"
+                      placeholder="np. 'PS5 + Cyberpunk 2077'"
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>What will you give out?</FormDescription>
+                  <FormDescription>Co rozdasz uczestnikom?</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -92,11 +91,11 @@ const CreatePage = () => {
             <div className="grid grid-cols-2 gap-2 items-center justify-center">
               <Link href="/admin/reward/">
                 <Button type="button" variant="ghost">
-                  Cancel
+                  Anuluj
                 </Button>
               </Link>
               <Button type="submit" disabled={!isValid || isSubmitting}>
-                Continue
+                Dalej
               </Button>
             </div>
           </form>

@@ -19,25 +19,25 @@ import toast from "react-hot-toast";
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "firstName",
-    header: "First name",
+    header: "Imię",
   },
   {
     accessorKey: "lastName",
-    header: "Last name",
+    header: "Nazwisko",
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: "Adres email",
   },
   {
-    accessorKey: "role",
+    accessorKey: "rola",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Role
+          Rola
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -45,7 +45,7 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "id",
-    header: "Actions",
+    header: "Akcje",
     cell: ({ row }) => {
       const user = row.original;
 
@@ -53,18 +53,18 @@ export const columns: ColumnDef<User>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Otwórz menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Akcje:</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`/admin/user/edit/${user.Id}`}>Edit</Link>
+              <Link href={`/admin/user/edit/${user.Id}`}>Edytuj</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500">
-              <button onClick={() => deleteUser(user.Id)}>Delete</button>
+              <button onClick={() => deleteUser(user.Id)}>Usuń</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -78,12 +78,11 @@ const deleteUser = async (userId: string) => {
     const response = await axios.delete(`/api/admin/user/delete/${userId}`);
     if (response.status === 200) {
       window.location.reload();
-      toast.success("User deleted successfully");
+      toast.success("Usuwanie użytkownika powiodło się");
     } else {
-      toast.error("Failed to delete user");
+      toast.error("Wystąpił błąd podczas usuwania użytkownika");
     }
   } catch (error) {
-    console.error("Error deleting user:", error);
-    toast.error("An error occurred while deleting user");
+    toast.error("Wystąpił błąd podczas usuwania użytkownika");
   }
 };

@@ -19,10 +19,10 @@ const SaveForm = ({ initialData, workshopId }: PublishProps) => {
       await axios.patch(`/api/admin/workshop/edit/${workshopId}`, {
         isPublished: !initialData.isPublished,
       });
-      toast.success("Workshop status updated");
+      toast.success("Pomyślnie zaktualizowano status wydarzenia");
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Coś poszło nie tak");
     }
   };
   return (
@@ -30,7 +30,7 @@ const SaveForm = ({ initialData, workshopId }: PublishProps) => {
       onClick={onClick}
       variant={initialData.isPublished ? "destructive" : "default"}
     >
-      {initialData.isPublished ? "Unpublish to edit" : "Publish"}
+      {initialData.isPublished ? "Wyłącz by edytować" : "Publikuj"}
     </Button>
   );
 };

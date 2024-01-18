@@ -55,7 +55,7 @@ export function DateTimePicker({
   const footer = (
     <>
       <div className="px-4 pt-0 pb-4">
-        <Label>Time</Label>
+        <Label>Godzina:</Label>
         <Input
           type="time"
           onChange={handleTimeChange}
@@ -80,7 +80,7 @@ export function DateTimePicker({
           {date ? (
             selectedDateTime.toFormat("DDD HH:mm")
           ) : (
-            <span>Pick a date</span>
+            <span>Wybierz datę</span>
           )}
         </Button>
       </PopoverTrigger>
