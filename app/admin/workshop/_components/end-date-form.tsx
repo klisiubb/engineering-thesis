@@ -16,7 +16,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Workshop } from "@prisma/client";
-import { cn } from "@/lib/utils"; // Importujemy DateTimePicker
+import { cn } from "@/lib/utils";
 import { DateTimePicker } from "./datetime";
 import { DateTime } from "luxon";
 
