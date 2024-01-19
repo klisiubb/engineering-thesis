@@ -24,6 +24,7 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
       },
     },
   });
+  const workshopsPrivate = workshops.filter((workshop) => workshop.isPublic === false);
   const user = await currentUser();
 
   if (!user || user.publicMetadata.role !== Role.ADMIN) {
@@ -74,7 +75,7 @@ const QRCodeEditPage = async ({ params }: { params: { qrcodeId: string } }) => {
             <WorkshopForm
               qrCodeId={qrcode.id}
               workshopId={qrcode.workshopId ? qrcode.workshopId : ""}
-              workshops={workshops}
+              workshops={workshopsPrivate}
             />
           </>
         )}
