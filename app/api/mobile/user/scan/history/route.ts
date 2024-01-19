@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized token error" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { message: "Unauthorized user error" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }

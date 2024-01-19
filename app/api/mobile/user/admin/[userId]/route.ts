@@ -16,7 +16,7 @@ export async function GET(
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -33,7 +33,7 @@ export async function GET(
 
   if (!user) {
     return NextResponse.json(
-      { message: "Unauthorized" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -43,7 +43,7 @@ export async function GET(
     user.role !== Role.LECTURER
   ) {
     return NextResponse.json(
-      { message: "Unauthorized role" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -57,14 +57,14 @@ export async function GET(
 
   if (!userToScan) {
     return NextResponse.json(
-      { message: "User not found" },
+      { message: "Nie znaleziono takiego użytkownika" },
       { headers: corsHeaders, status: 404 }
     );
   }
 
   if (userToScan.role !== Role.USER) {
     return NextResponse.json(
-      { message: "User is not user role!" },
+      { message: "Tego użytkownika nie dotyczy skanowanie" },
       { headers: corsHeaders, status: 404 }
     );
   }
@@ -81,7 +81,7 @@ export async function GET(
       },
     });
     return NextResponse.json(
-      { message: "User set as present at workshop!" },
+      { message: `Obecność użytkownika ${user.firstName} ${user.lastName} potwierdzona` },
       { headers: corsHeaders, status: 200 }
     );
   }
@@ -90,7 +90,7 @@ export async function GET(
     userToScan.isPresentAtWorkshop === true
   ) {
     return NextResponse.json(
-      { message: "User is already present at event and workshop!" },
+      { message: "Obecność jest już potwierdzona" },
       { headers: corsHeaders, status: 400 }
     );
   }
@@ -103,7 +103,7 @@ export async function GET(
     },
   });
   return NextResponse.json(
-    { message: "User set as present!" },
+    { message: "Obecność użytkownika ${user.firstName} ${user.lastName} potwierdzona" },
     { headers: corsHeaders, status: 200 }
   );
 }

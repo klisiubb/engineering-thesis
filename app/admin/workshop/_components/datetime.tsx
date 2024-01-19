@@ -62,7 +62,7 @@ export function DateTimePicker({
           value={selectedDateTime.toFormat("HH:mm")}
         />
       </div>
-      {!selectedDateTime && <p>Please pick a day.</p>}
+      {!selectedDateTime && <p>Wybierz dzień</p>}
     </>
   )
 

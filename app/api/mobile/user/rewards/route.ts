@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
   const token = req.headers.get("Authorization")?.split(" ")[1] as string;
   if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Brak dostępu" }, { status: 401 });
   }
 
   let decoded = jwt.decode(token, { complete: true });

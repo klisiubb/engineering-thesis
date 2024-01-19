@@ -14,7 +14,7 @@ export async function GET(
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -30,7 +30,7 @@ export async function GET(
 
   if (!admin || admin.role !== Role.ADMIN) {
     return NextResponse.json(
-      { message: "Unauthorized" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -48,7 +48,7 @@ export async function GET(
   });
   if (!reward) {
     return NextResponse.json(
-      { message: "Reward not found" },
+      { message: "Brak nagrody" },
       { headers: corsHeaders, status: 404 }
     );
   }
@@ -70,7 +70,7 @@ export async function GET(
 
   if (!usersEligible) {
     return NextResponse.json(
-      { message: "No users eligible for winning reward" },
+      { message: "Brak użytkowników spełniających warunki" },
       { headers: corsHeaders, status: 404 }
     );
   }
@@ -102,7 +102,7 @@ export async function GET(
 
   if (!winner) {
     return NextResponse.json(
-      { message: "Unable to select a winner" },
+      { message: "Brak użytkowników spełniających warunki" },
       { headers: corsHeaders, status: 500 }
     );
   }
@@ -128,7 +128,7 @@ export async function GET(
 
   // Return success response
   return NextResponse.json(
-    { message: `Winner: ${winner.firstName} ${winner.lastName}.` },
+    { message: `Zwyciężca: ${winner.firstName} ${winner.lastName}.` },
     { headers: corsHeaders, status: 200 }
   );
 }

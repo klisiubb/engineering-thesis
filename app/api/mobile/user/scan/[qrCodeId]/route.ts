@@ -15,7 +15,7 @@ export async function GET(
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized token error" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 401 }
     );
   }
@@ -35,7 +35,7 @@ export async function GET(
 
   if (!user) {
     return NextResponse.json(
-      { message: "User not found" },
+      { message: "Brak dostępu" },
       { headers: corsHeaders, status: 404 }
     );
   }
@@ -52,7 +52,7 @@ export async function GET(
   //Check if qr code exists or is published
   if (!qrCode || qrCode.isPublished === false) {
     return NextResponse.json(
-      { message: "QR code not found" },
+      { message: "Ten kod QR nie jest poprawny" },
       { headers: corsHeaders, status: 404 }
     );
   }
@@ -63,7 +63,7 @@ export async function GET(
   );
   if (alreadyScanned) {
     return NextResponse.json(
-      { message: " You already scanned this QR Code" },
+      { message: " Zeskanowałeś już ten kod QR" },
       { headers: corsHeaders, status: 400 }
     );
   }
@@ -71,7 +71,7 @@ export async function GET(
   const scannedCount = qrCode.scannedBy.length;
   if (qrCode.maxUses > 0 && scannedCount >= qrCode.maxUses) {
     return NextResponse.json(
-      { message: "QR Code was scanned too many times!" },
+      { message: "Ten kod QR został zeskanowany za dużo razy" },
       { headers: corsHeaders, status: 400 }
     );
   }
@@ -82,14 +82,14 @@ export async function GET(
     qrCode.workshopId !== user?.workshopToAttendId
   ) {
     return NextResponse.json(
-      { message: "You are not in this workshop" },
+      { message: "Ten kod nie jest dla Twojego warsztatu" },
       { headers: corsHeaders, status: 400 }
     );
   }
   //Cant scan qr code for workshop if user is not present at workshop
   if(qrCode.workshopId === user?.workshopToAttendId && user?.isPresentAtWorkshop === false){
     return NextResponse.json(
-      { message: "You are not present at this workshop" },
+      { message: "Nie jesteś obecny na warsztacie" },
       { headers: corsHeaders, status: 400 }
     );
   }
@@ -102,7 +102,7 @@ export async function GET(
         currentTime <= new Date(user.workshopToAttend.endDate) && qrCode.workshopId !== user.workshopToAttendId
     ) {
       return NextResponse.json(
-          { message: "You can't scan other QR codes when at workshop" },
+          { message: "Nie możesz skanować innych kodów gdy jesteś na warsztacie" },
           { headers: corsHeaders, status: 400 }
       );
     }
@@ -111,13 +111,13 @@ export async function GET(
   if(qrCode.Workshop !== null) {
     if(currentTime <= new Date(qrCode.Workshop.startDate)){
       return NextResponse.json(
-          { message: "QR code is not active yet" },
+          { message: "Ten kod jest jeszcze dostępny. Poczekaj na rozpoczęcie warsztatu" },
           { headers: corsHeaders, status: 400 }
       );
     }
     if(currentTime >= new Date(qrCode.Workshop.endDate)){
       return NextResponse.json(
-          { message: "QR code is not active anymore" },
+          { message: "Za późno. Ten kod nie jest dostępny" },
           { headers: corsHeaders, status: 400 }
       );
     }
@@ -146,7 +146,7 @@ export async function GET(
     },
   });
   return NextResponse.json(
-    { message: "Successfully scanned this QR Code!" },
+    { message: `Pomyślnie zeskanowano ten kod. Zdobywasz: ${qrCode.value} punktów` },
     { headers: corsHeaders, status: 200 }
   );
 }

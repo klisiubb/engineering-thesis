@@ -9,6 +9,7 @@ import { Webhook, WebhookRequiredHeaders } from "svix";
 const secret = process.env.WEBHOOK_SECRET || "";
 
 async function handler(req: Request) {
+  console.log("WEBHOOK TEST")
   const payload = await req.json();
   const headersList = headers();
   const heads = {
