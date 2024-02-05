@@ -103,7 +103,7 @@ export async function GET(
     },
   });
   return NextResponse.json(
-    { message: "Obecność użytkownika ${user.firstName} ${user.lastName} potwierdzona" },
+    { message: `Obecność użytkownika ${user.firstName} ${user.lastName} potwierdzona` },
     { headers: corsHeaders, status: 200 }
   );
 }
