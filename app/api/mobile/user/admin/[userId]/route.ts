@@ -69,7 +69,8 @@ export async function GET(
     );
   }
   if (
-    userToScan.isPresentAtEvent === true && user.workshopToAttendId !== null &&
+    userToScan.isPresentAtEvent === true &&
+    userToScan.workshopToAttendId !== null &&
     userToScan.isPresentAtWorkshop !== true
   ) {
     await prisma.user.update({
