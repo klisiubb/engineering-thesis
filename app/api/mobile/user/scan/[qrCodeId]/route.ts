@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import * as jwt from "jsonwebtoken";
 import { prisma } from "@/lib/db";
 import { corsHeaders } from "../../options";
+import { use } from "react";
 
 export async function GET(
   req: Request,
@@ -57,6 +58,13 @@ export async function GET(
     );
   }
 
+  if (user.isPresentAtEvent === false) {
+    return NextResponse.json(
+      { message: "Nie jesteś obecny na wydarzeniu" },
+      { headers: corsHeaders, status: 404 }
+    );
+  }
+
   //Check if user already scanned this qr code
   const alreadyScanned = qrCode.scannedBy.find(
     (scannedBy) => scannedBy.externalId === decodedSub
@@ -87,7 +95,7 @@ export async function GET(
     );
   }
   //Cant scan qr code for workshop if user is not present at workshop
-  if(qrCode.workshopId === user?.workshopToAttendId && user?.isPresentAtWorkshop === false){
+  if (qrCode.workshopId === user?.workshopToAttendId && user?.isPresentAtWorkshop === false) {
     return NextResponse.json(
       { message: "Nie jesteś obecny na warsztacie" },
       { headers: corsHeaders, status: 400 }
@@ -96,29 +104,29 @@ export async function GET(
 
   const currentTime = new Date();
   //Can't scan other qr codes if user is at workshop during workshop time
-  if(user.workshopToAttendId !== null && user.workshopToAttend !== null) {
+  if (user.workshopToAttendId !== null && user.workshopToAttend !== null) {
     if (
-        currentTime >= new Date(user.workshopToAttend.startDate) &&
-        currentTime <= new Date(user.workshopToAttend.endDate) && qrCode.workshopId !== user.workshopToAttendId
+      currentTime >= new Date(user.workshopToAttend.startDate) &&
+      currentTime <= new Date(user.workshopToAttend.endDate) && qrCode.workshopId !== user.workshopToAttendId
     ) {
       return NextResponse.json(
-          { message: "Nie możesz skanować innych kodów gdy jesteś na warsztacie" },
-          { headers: corsHeaders, status: 400 }
+        { message: "Nie możesz skanować innych kodów gdy jesteś na warsztacie" },
+        { headers: corsHeaders, status: 400 }
       );
     }
   }
   //Can't scan qr code for workshop if workshop is before workshop start date or after workshop end date
-  if(qrCode.Workshop !== null) {
-    if(currentTime <= new Date(qrCode.Workshop.startDate)){
+  if (qrCode.Workshop !== null) {
+    if (currentTime <= new Date(qrCode.Workshop.startDate)) {
       return NextResponse.json(
-          { message: "Ten kod jest jeszcze dostępny. Poczekaj na rozpoczęcie warsztatu" },
-          { headers: corsHeaders, status: 400 }
+        { message: "Ten kod jest jeszcze dostępny. Poczekaj na rozpoczęcie warsztatu" },
+        { headers: corsHeaders, status: 400 }
       );
     }
-    if(currentTime >= new Date(qrCode.Workshop.endDate)){
+    if (currentTime >= new Date(qrCode.Workshop.endDate)) {
       return NextResponse.json(
-          { message: "Za późno. Ten kod nie jest dostępny" },
-          { headers: corsHeaders, status: 400 }
+        { message: "Za późno. Ten kod nie jest dostępny" },
+        { headers: corsHeaders, status: 400 }
       );
     }
   }
