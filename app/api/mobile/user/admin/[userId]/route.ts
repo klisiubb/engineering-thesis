@@ -86,12 +86,22 @@ export async function GET(
       { headers: corsHeaders, status: 200 }
     );
   }
+
+  if (userToScan.isPresentAtEvent === true &&
+    userToScan.workshopToAttendId === null) {
+    return NextResponse.json(
+      { message: "Obecność jest już potwierdzona na wykładzie" },
+      { headers: corsHeaders, status: 400 }
+    );
+  }
+
   if (
     userToScan.isPresentAtEvent === true &&
+    userToScan.workshopToAttendId !== null &&
     userToScan.isPresentAtWorkshop === true
   ) {
     return NextResponse.json(
-      { message: "Obecność jest już potwierdzona" },
+      { message: "Obecność jest już potwierdzona na wykładzie i warsztacie" },
       { headers: corsHeaders, status: 400 }
     );
   }
